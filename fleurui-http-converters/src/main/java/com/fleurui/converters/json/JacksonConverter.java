@@ -5,8 +5,12 @@ import com.fleurui.converters.HttpConverter;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class JacksonConverter implements HttpConverter {
+
+    private final ObjectMapper mapper = new ObjectMapper();
+
     @Override
     public String getContentType() {
         return "application/json";
@@ -23,7 +27,15 @@ public class JacksonConverter implements HttpConverter {
         if (clazz == String.class) {
             return clazz.cast(new String(bytes));
         }
-        ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(bytes, clazz);
+    }
+
+    @Override
+    public void write(Object value, OutputStream output) {
+        try {
+            mapper.writeValue(output, value);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write object to output stream", e);
+        }
     }
 }

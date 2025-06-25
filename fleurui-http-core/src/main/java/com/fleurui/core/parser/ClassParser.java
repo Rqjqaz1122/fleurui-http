@@ -10,9 +10,10 @@ import java.util.Map;
 /**
  * 类注解解析器
  */
-public class ClassParser{
+public class ClassParser implements Parser{
 
-    public static void parser(Request request, Method method) {
+    @Override
+    public void parser(Request request, Method method,Object[] args) {
         Class<?> clazz = method.getDeclaringClass();
         Http http = clazz.getAnnotation(Http.class);
         String baseUrl = http.value();

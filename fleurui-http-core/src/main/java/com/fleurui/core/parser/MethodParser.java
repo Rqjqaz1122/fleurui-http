@@ -12,9 +12,10 @@ import java.util.Map;
 /**
  * 方法解析器
  */
-public class MethodParser {
+public class MethodParser implements Parser{
 
-    public static void parser(Request request, Method method) {
+    @Override
+    public void parser(Request request, Method method,Object[] args) {
         HttpServer httpServer = method.getAnnotation(HttpServer.class);
         if(httpServer == null) {
             for (Annotation annotation : method.getAnnotations()) {

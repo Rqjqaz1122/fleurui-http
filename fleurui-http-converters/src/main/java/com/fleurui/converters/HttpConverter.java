@@ -2,6 +2,7 @@ package com.fleurui.converters;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public interface HttpConverter {
 
@@ -28,4 +29,11 @@ public interface HttpConverter {
      * @throws IOException
      */
     <T> T read(byte[] bytes,Class<T> clazz) throws IOException;
+
+    /**
+     * 将数据写入输出流
+     * @param value
+     * @param output
+     */
+    void write(Object value, OutputStream output);
 }

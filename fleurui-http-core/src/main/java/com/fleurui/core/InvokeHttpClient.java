@@ -5,9 +5,7 @@ import com.fleurui.converters.HttpConverter;
 import com.fleurui.annotations.HttpDemo;
 import com.fleurui.clients.HttpClient;
 import com.fleurui.clients.NativeHttpClientAdapter;
-import com.fleurui.core.parser.ClassParser;
-import com.fleurui.core.parser.MethodParser;
-import com.fleurui.core.parser.ParameterParser;
+import com.fleurui.core.parser.*;
 import com.fleurui.model.Request;
 import com.fleurui.model.Response;
 
@@ -15,6 +13,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 class InvokeHttpClient implements InvocationHandler {
@@ -29,11 +28,11 @@ class InvokeHttpClient implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Request request = new Request();
         request.setHeaders(new HashMap<>());
-        ClassParser.parser(request,method);
-        MethodParser.parser(request,method);
-        ParameterParser.parser(request,method);
+        List<Parser> parserList = ParserRegister.getParserList();
+        for (Parser parser : parserList) {
+            parser.parser(request,method,args);
+        }
         Response response = httpClient.execute(request);
-        System.out.println(response);
         byte[] body = response.getBody();
         Map<String, String> headers = response.getHeaders();
         String contentType = headers.get("Content-Type");
