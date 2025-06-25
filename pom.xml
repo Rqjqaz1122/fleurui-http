@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.fleurui</groupId>
+    <artifactId>fleurui-http</artifactId>
+    <version>0.0.1-beta</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>fleurui-http-core</module>
+        <module>fleurui-http-annotations</module>
+        <module>fleurui-http-converters</module>
+        <module>fleurui-clients</module>
+        <module>fleurui-http-model</module>
+        <module>fleurui-http-exception</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.fleurui</groupId>
+                <artifactId>fleurui-http-model</artifactId>
+                <version>0.0.1-beta</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fleurui</groupId>
+                <artifactId>fleurui-http-core</artifactId>
+                <version>0.0.1-beta</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fleurui</groupId>
+                <artifactId>fleurui-http-converters</artifactId>
+                <version>0.0.1-beta</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fleurui</groupId>
+                <artifactId>fleurui-http-annotations</artifactId>
+                <version>0.0.1-beta</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fleurui</groupId>
+                <artifactId>fleurui-clients</artifactId>
+                <version>0.0.1-beta</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fleurui</groupId>
+                <artifactId>fleurui-http-exception</artifactId>
+                <version>0.0.1-beta</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>
