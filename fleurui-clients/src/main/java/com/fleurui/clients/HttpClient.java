@@ -4,7 +4,6 @@ import com.fleurui.model.Request;
 import com.fleurui.model.Response;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 public interface HttpClient {
 

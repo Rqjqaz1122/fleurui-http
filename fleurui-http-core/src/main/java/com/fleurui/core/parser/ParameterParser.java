@@ -11,10 +11,8 @@ import com.fleurui.model.Request;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 参数解析器
@@ -26,7 +24,7 @@ public class ParameterParser implements Parser{
         Map<String, String> headers = request.getHeaders();
         String contentType = headers.get("Content-Type");
         Parameter[] parameters = method.getParameters();
-        Map<String,Object> paramsMap = new HashMap<>(args.length);
+        Map<String,String> paramsMap = new HashMap<>(args.length);
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];
             Parameter parameter = parameters[i];

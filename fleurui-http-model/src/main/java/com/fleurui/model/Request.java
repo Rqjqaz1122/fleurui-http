@@ -1,6 +1,5 @@
 package com.fleurui.model;
 
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -12,7 +11,7 @@ public class Request {
 
     private Map<String,String> headers;
 
-    private Map<String,Object> params;
+    private Map<String,String> params;
 
     private byte[] body;
 
@@ -57,11 +56,11 @@ public class Request {
         this.body = body;
     }
 
-    public Map<String, Object> getParams() {
+    public Map<String, String> getParams() {
         return params;
     }
 
-    public void setParams(Map<String, Object> params) {
+    public void setParams(Map<String, String> params) {
         this.params = params;
     }
 

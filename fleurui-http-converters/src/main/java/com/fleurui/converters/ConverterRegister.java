@@ -2,6 +2,7 @@ package com.fleurui.converters;
 
 import com.fleurui.annotations.Order;
 import com.fleurui.converters.json.JacksonConverter;
+import com.fleurui.converters.text.TextHtmlConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +13,8 @@ public class ConverterRegister {
     private List<HttpConverter> converterList = new ArrayList<>();
 
     public ConverterRegister() {
-        HttpConverter httpConverter = new JacksonConverter();
-        converterList.add(httpConverter);
+        converterList.add(new JacksonConverter());
+        converterList.add(new TextHtmlConverter());
     }
 
     /**
