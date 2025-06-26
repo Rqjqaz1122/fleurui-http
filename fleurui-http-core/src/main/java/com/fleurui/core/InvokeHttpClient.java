@@ -1,11 +1,13 @@
 package com.fleurui.core;
 
+import com.fleurui.annotations.Demo;
 import com.fleurui.converters.ConverterRegister;
 import com.fleurui.converters.HttpConverter;
 import com.fleurui.annotations.HttpDemo;
 import com.fleurui.clients.HttpClient;
 import com.fleurui.clients.NativeHttpClientAdapter;
 import com.fleurui.core.parser.*;
+import com.fleurui.core.type.ParserParamsFactory;
 import com.fleurui.model.Request;
 import com.fleurui.model.Response;
 
@@ -28,11 +30,13 @@ class InvokeHttpClient implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Request request = new Request();
         request.setHeaders(new HashMap<>());
-        List<Parser> parserList = ParserRegister.getParserList();
+        List<Parser> parserList = new ParserFactory().getParserList();
         for (Parser parser : parserList) {
             parser.parser(request,method,args);
         }
+        long l = System.currentTimeMillis();
         Response response = httpClient.execute(request);
+        System.out.println(System.currentTimeMillis() - l);
         byte[] body = response.getBody();
         Map<String, String> headers = response.getHeaders();
         String contentType = headers.get("Content-Type");
@@ -44,9 +48,12 @@ class InvokeHttpClient implements InvocationHandler {
     }
 
     public static void main(String[] args) {
+        long l = System.currentTimeMillis();
+        System.out.println(l);
         Class<HttpDemo> httpDemoClass = HttpDemo.class;
         HttpDemo o = (HttpDemo)Proxy.newProxyInstance(httpDemoClass.getClassLoader(), new Class<?>[]{httpDemoClass}, new InvokeHttpClient(new NativeHttpClientAdapter()));
-        String s = o.sendRequest(1L);
+        String s = o.sendRequest(1L,new Demo());
+        System.out.println(System.currentTimeMillis() - l);
         System.out.println(s);
     }
 }

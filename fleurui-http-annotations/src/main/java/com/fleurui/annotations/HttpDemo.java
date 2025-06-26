@@ -5,10 +5,10 @@ import com.fleurui.annotations.request.Body;
 import com.fleurui.annotations.request.Http;
 import com.fleurui.annotations.request.Params;
 
-@Http(value = "https://www.api.wrqj.top/blog/web/article/random",defaultHeader = {"Content-Type:application/json"})
+@Http(value = "https://www.baidu.com",defaultHeader = {"Content-Type:application/json"})
 public interface HttpDemo {
 
     @GET
-    String sendRequest(@Body @Params("id") Long id);
+    String sendRequest(@Params("id") Long id,@Params Demo demo);
 
 }

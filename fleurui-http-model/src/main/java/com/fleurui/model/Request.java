@@ -12,6 +12,8 @@ public class Request {
 
     private Map<String,String> headers;
 
+    private Map<String,Object> params;
+
     private byte[] body;
 
     public Request(String url, String method, Map<String, String> headers, byte[] body) {
@@ -55,12 +57,21 @@ public class Request {
         this.body = body;
     }
 
+    public Map<String, Object> getParams() {
+        return params;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
+    }
+
     @Override
     public String toString() {
         return "Request{" +
                 "url='" + url + '\'' +
                 ", method='" + method + '\'' +
                 ", headers=" + headers +
+                ", params=" + params +
                 ", body=" + Arrays.toString(body) +
                 '}';
     }
