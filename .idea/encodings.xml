@@ -5,6 +5,8 @@
     <file url="file://$PROJECT_DIR$/fleurui-clients/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fleurui-http-annotations/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fleurui-http-annotations/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fleurui-http-builder/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fleurui-http-builder/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fleurui-http-converters/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fleurui-http-converters/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/fleurui-http-core/src/main/java" charset="UTF-8" />

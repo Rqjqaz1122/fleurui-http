@@ -1,21 +1,16 @@
 package com.fleurui.converters;
 
 import com.fleurui.annotations.Order;
-import com.fleurui.converters.json.JacksonConverter;
-import com.fleurui.converters.text.TextHtmlConverter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ConverterRegister {
+public class ConverterFactory {
 
-    private List<HttpConverter> converterList = new ArrayList<>();
+    private static final List<HttpConverter> converterList = new ArrayList<>();
 
-    public ConverterRegister() {
-        converterList.add(new JacksonConverter());
-        converterList.add(new TextHtmlConverter());
-    }
+    public ConverterFactory() {}
 
     /**
      * 获取适配器
@@ -23,8 +18,8 @@ public class ConverterRegister {
      * @return
      */
     public static HttpConverter getConverter(String contentType) {
-        ConverterRegister converterRegister = new ConverterRegister();
-        List<HttpConverter> list = converterRegister.getConverterList();
+        ConverterFactory converterFactory = new ConverterFactory();
+        List<HttpConverter> list = converterFactory.getConverterList();
         List<HttpConverter> httpConverterList = list.stream()
                 .filter(item -> item.getContentType().equals(contentType))
                 .sorted((o1,o2) -> {
@@ -41,12 +36,12 @@ public class ConverterRegister {
         return httpConverterList.get(0);
     }
 
-    public void addConverter(HttpConverter converter) {
+    public static void addConverter(HttpConverter converter) {
         converterList.add(converter);
     }
 
-    public void setConverterList(List<HttpConverter> httpConverterList){
-        this.converterList = httpConverterList;
+    public static void addConverter(List<HttpConverter> converters) {
+        converterList.addAll(converters);
     }
 
     public List<HttpConverter> getConverterList() {

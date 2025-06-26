@@ -14,17 +14,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ParserParamsFactory {
 
-    private final Map<Class<?>,ParserParams> parserParamsMap = new ConcurrentHashMap<>(6);
+    private static final Map<Class<?>,ParserParams> parserParamsMap = new ConcurrentHashMap<>(6);
 
-    public ParserParamsFactory() {
-        parserParamsMap.put(Number.class,new NumberParserAdapter());
-        parserParamsMap.put(ArrayType.class,new ArrayParserAdapter());
-        parserParamsMap.put(Object.class,new ObjectParserAdapter());
-    }
-
-    public void addParserParam(Class<?> clazz,ParserParams parserParams) {
-        this.parserParamsMap.put(clazz,parserParams);
-    }
+    public ParserParamsFactory() {}
 
     public ParserParams getParserParams(Class<?> clazz) {
         boolean isArray = clazz.isArray();
@@ -43,5 +35,13 @@ public class ParserParamsFactory {
             parserParams = parserParamsMap.get(Object.class);
         }
         return parserParams;
+    }
+
+    public static void addParserParam(Class<?> clazz,ParserParams parserParams) {
+        parserParamsMap.put(clazz,parserParams);
+    }
+
+    public static void addParserParam(Map<Class<?>,ParserParams> map) {
+        parserParamsMap.putAll(map);
     }
 }

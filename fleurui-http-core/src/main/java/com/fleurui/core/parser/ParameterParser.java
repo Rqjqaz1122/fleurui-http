@@ -2,7 +2,7 @@ package com.fleurui.core.parser;
 
 import com.fleurui.annotations.request.Body;
 import com.fleurui.annotations.request.Params;
-import com.fleurui.converters.ConverterRegister;
+import com.fleurui.converters.ConverterFactory;
 import com.fleurui.converters.HttpConverter;
 import com.fleurui.core.type.ParserParams;
 import com.fleurui.core.type.ParserParamsFactory;
@@ -30,7 +30,7 @@ public class ParameterParser implements Parser{
             Parameter parameter = parameters[i];
             Body body = parameter.getAnnotation(Body.class);
             if(body != null && contentType != null && !contentType.isEmpty()) {
-                HttpConverter converter = ConverterRegister.getConverter(contentType);
+                HttpConverter converter = ConverterFactory.getConverter(contentType);
                 ByteArrayOutputStream  output = new ByteArrayOutputStream();
                 converter.write(arg,output);
                 byte[] byteArray = output.toByteArray();

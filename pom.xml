@@ -15,6 +15,7 @@
         <module>fleurui-clients</module>
         <module>fleurui-http-model</module>
         <module>fleurui-http-exception</module>
+        <module>fleurui-http-builder</module>
     </modules>
 
     <properties>
