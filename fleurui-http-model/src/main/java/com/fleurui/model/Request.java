@@ -57,7 +57,7 @@ public class Request {
     }
 
     public Map<String, String> getParams() {
-        return params;
+        return this.params;
     }
 
     public void setParams(Map<String, String> params) {

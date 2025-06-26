@@ -16,6 +16,7 @@
         <module>fleurui-http-model</module>
         <module>fleurui-http-exception</module>
         <module>fleurui-http-builder</module>
+        <module>fleurui-http-example</module>
     </modules>
 
     <properties>
@@ -29,37 +30,43 @@
             <dependency>
                 <groupId>com.fleurui</groupId>
                 <artifactId>fleurui-http-model</artifactId>
-                <version>0.0.1-beta</version>
+                <version>${version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fleurui</groupId>
                 <artifactId>fleurui-http-core</artifactId>
-                <version>0.0.1-beta</version>
+                <version>${version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fleurui</groupId>
                 <artifactId>fleurui-http-converters</artifactId>
-                <version>0.0.1-beta</version>
+                <version>${version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fleurui</groupId>
                 <artifactId>fleurui-http-annotations</artifactId>
-                <version>0.0.1-beta</version>
+                <version>${version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fleurui</groupId>
                 <artifactId>fleurui-clients</artifactId>
-                <version>0.0.1-beta</version>
+                <version>${version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fleurui</groupId>
                 <artifactId>fleurui-http-exception</artifactId>
-                <version>0.0.1-beta</version>
+                <version>${version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fleurui</groupId>
+                <artifactId>fleurui-http-builder</artifactId>
+                <version>${version}</version>
             </dependency>
 
         </dependencies>

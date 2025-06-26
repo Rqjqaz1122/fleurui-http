@@ -31,7 +31,7 @@ public class InvokeHttpClient implements InvocationHandler {
             parser.parser(request,method,args);
         }
         Map<String, String> params = request.getParams();
-        if(!params.isEmpty()) {
+        if(params != null && !params.isEmpty()) {
             String finalUrl = UrlBuilder.create(request.getUrl()).addQuery(params);
             request.setUrl(finalUrl);
         }

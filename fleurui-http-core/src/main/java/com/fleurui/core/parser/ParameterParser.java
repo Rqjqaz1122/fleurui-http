@@ -24,6 +24,9 @@ public class ParameterParser implements Parser{
         Map<String, String> headers = request.getHeaders();
         String contentType = headers.get("Content-Type");
         Parameter[] parameters = method.getParameters();
+        if(args == null || args.length < 1) {
+            return;
+        }
         Map<String,String> paramsMap = new HashMap<>(args.length);
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];
