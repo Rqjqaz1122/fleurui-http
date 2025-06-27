@@ -2,12 +2,13 @@ package com.fleurui.builder.register;
 
 import com.fleurui.core.type.ParserParams;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ParserParamsRegister {
 
-    private final Map<Class<?>,ParserParams> parserParamsMap = new ConcurrentHashMap<>();
+    private final Map<Class<?>,ParserParams> parserParamsMap = new HashMap<>();
 
     public ParserParamsRegister(){}
 

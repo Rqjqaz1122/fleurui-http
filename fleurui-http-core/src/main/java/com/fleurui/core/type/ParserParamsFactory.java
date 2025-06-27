@@ -1,6 +1,7 @@
 package com.fleurui.core.type;
 
 import java.lang.reflect.Array;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ParserParamsFactory {
 
-    private static final Map<Class<?>,ParserParams> parserParamsMap = new ConcurrentHashMap<>(6);
+    private static final Map<Class<?>,ParserParams> parserParamsMap = new HashMap<>(6);
 
     public ParserParamsFactory() {}
 

@@ -7,10 +7,8 @@ public class Main {
         long l = System.currentTimeMillis();
         HttpServiceBuilder builder = HttpServiceBuilder.builder();
         HttpDemo httpDemo = builder.build(HttpDemo.class);
-        RandomArticle.Result random = httpDemo.getRandom();
+        String random = httpDemo.getRandom();
         System.out.println(System.currentTimeMillis() - l);
         System.out.println(random);
-        Object data = random.getData();
-        System.out.println(data);
     }
 }
