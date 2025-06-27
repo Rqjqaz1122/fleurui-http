@@ -1,9 +1,8 @@
-package com.fleurui.builder;
+package com.fleurui.core.builder;
 
-import com.fleurui.builder.register.ConverterRegister;
-import com.fleurui.builder.register.ParserParamsRegister;
+import com.fleurui.core.builder.register.ConverterRegister;
+import com.fleurui.core.builder.register.ParserParamsRegister;
 import com.fleurui.clients.HttpClient;
-import com.fleurui.clients.NativeHttpClientAdapter;
 import com.fleurui.converters.ConverterFactory;
 import com.fleurui.converters.HttpConverter;
 import com.fleurui.core.type.ParserParams;

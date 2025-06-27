@@ -1,4 +1,4 @@
-package com.fleurui.builder;
+package com.fleurui.core.builder;
 
 import com.fleurui.clients.HttpClient;
 import com.fleurui.core.InvokeHttpClient;

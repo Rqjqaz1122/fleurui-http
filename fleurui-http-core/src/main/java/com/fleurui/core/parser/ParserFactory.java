@@ -13,10 +13,6 @@ public class ParserFactory {
         parserList.add(new ParameterParser());
     }
 
-    public void addParser(Parser parser) {
-        this.parserList.add(parser);
-    }
-
     public List<Parser> getParserList() {
         return this.parserList;
     }

@@ -1,4 +1,4 @@
-package com.fleurui.builder.register;
+package com.fleurui.core.builder.register;
 
 import com.fleurui.converters.HttpConverter;
 
