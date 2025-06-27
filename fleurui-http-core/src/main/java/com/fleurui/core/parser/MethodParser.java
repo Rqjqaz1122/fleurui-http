@@ -2,10 +2,12 @@ package com.fleurui.core.parser;
 
 import com.fleurui.annotations.method.HttpServer;
 import com.fleurui.annotations.request.Header;
+import com.fleurui.core.utils.UrlBuilder;
 import com.fleurui.exception.HeaderException;
 import com.fleurui.model.Request;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -22,6 +24,16 @@ public class MethodParser implements Parser{
                 if(annotation.annotationType().isAnnotationPresent(HttpServer.class)) {
                     httpServer = annotation.annotationType().getAnnotation(HttpServer.class);
                     request.setMethod(httpServer.value());
+                    Method valueMethod = null;
+                    try {
+                        valueMethod = annotation.annotationType().getMethod("value");
+                        String value = (String)valueMethod.invoke(annotation);
+                        String url = UrlBuilder.create(request.getUrl())
+                                .addPath(value).toString();
+                        request.setUrl(url);
+                    } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 }
             }

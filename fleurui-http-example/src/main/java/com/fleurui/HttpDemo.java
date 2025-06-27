@@ -5,11 +5,10 @@ import com.fleurui.annotations.request.Http;
 
 import java.util.List;
 
-@Http(value = "https://www.api.wrqj.top/blog/web/article/random")
+@Http(value = "https://www.api.wrqj.top/blog/web/")
 public interface HttpDemo {
 
-    @GET
+    @GET(value = "/article/random")
     RandomArticle.Result getRandom();
-
 
 }

@@ -1,7 +1,5 @@
 package com.fleurui.core.type;
 
-import com.fleurui.model.ArrayType;
-
 import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Map;
