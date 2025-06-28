@@ -4,11 +4,6 @@ import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @Author: RenQingJun
- * @Date: 2025/6/26 16:37
- * @description:
- */
 public class ArrayParserAdapter implements ParserParams{
     @Override
     public Map<String, String> parseParamType(String key,Object value) {

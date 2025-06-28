@@ -6,11 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * @Author: RenQingJun
- * @Date: 2025/6/26 16:06
- * @description:
- */
 public class ParserParamsFactory {
 
     private static final Map<Class<?>,ParserParams> parserParamsMap = new HashMap<>(6);

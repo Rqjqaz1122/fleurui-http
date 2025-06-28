@@ -11,9 +11,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-/**
- * 方法解析器
- */
 public class MethodParser implements Parser{
 
     @Override
@@ -51,7 +48,7 @@ public class MethodParser implements Parser{
             for (String item : value) {
                 String[] split = item.split(":");
                 if(split.length != 2) {
-                    throw new HeaderException("header解析失败，不支持格式：" + header);
+                    throw new HeaderException("header解析失败，不支持格式：" + item,item);
                 }
                 headers.put(split[0],split[1]);
             }

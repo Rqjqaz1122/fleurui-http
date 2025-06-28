@@ -6,11 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * @Author: RenQingJun
- * @Date: 2025/6/26 16:33
- * @description:
- */
 public class ObjectParserAdapter implements ParserParams{
     @Override
     public Map<String, String> parseParamType(String key,Object value) {

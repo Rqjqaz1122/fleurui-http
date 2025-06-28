@@ -1,6 +1,7 @@
 package com.fleurui.converters;
 
 import com.fleurui.annotations.Order;
+import com.fleurui.exception.ConverterNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ConverterFactory {
                 })
                 .collect(Collectors.toList());
         if(httpConverterList.isEmpty()) {
-            throw new RuntimeException("找不到适配：" + contentType + "类型转换器");
+            throw new ConverterNotFoundException("找不到适配：" + contentType + "类型转换器");
         }
         return httpConverterList.get(0);
     }

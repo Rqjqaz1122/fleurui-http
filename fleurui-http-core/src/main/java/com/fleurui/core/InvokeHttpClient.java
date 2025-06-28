@@ -5,6 +5,8 @@ import com.fleurui.converters.HttpConverter;
 import com.fleurui.clients.HttpClient;
 import com.fleurui.core.parser.*;
 import com.fleurui.core.utils.UrlBuilder;
+import com.fleurui.exception.ConverterNotFoundException;
+import com.fleurui.exception.HttpClientNullException;
 import com.fleurui.model.Request;
 import com.fleurui.model.Response;
 
@@ -36,13 +38,16 @@ public class InvokeHttpClient implements InvocationHandler {
                 String finalUrl = UrlBuilder.create(request.getUrl()).addQuery(params);
                 request.setUrl(finalUrl);
             }
+            if(httpClient == null) {
+                throw new HttpClientNullException();
+            }
             Response response = httpClient.execute(request);
             byte[] body = response.getBody();
             Map<String, String> headers = response.getHeaders();
             String contentType = headers.get("Content-Type");
             HttpConverter converter = ConverterFactory.getConverter(contentType);
             if(converter == null) {
-                throw new RuntimeException("找不到适配：" + contentType + "类型转换器");
+                throw new ConverterNotFoundException("找不到适配：" + contentType + "类型转换器");
             }
             return converter.read(body, method.getReturnType());
         }catch (Exception e) {

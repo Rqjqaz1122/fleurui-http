@@ -7,9 +7,6 @@ import com.fleurui.model.Request;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-/**
- * 类注解解析器
- */
 public class ClassParser implements Parser{
 
     @Override
@@ -23,7 +20,7 @@ public class ClassParser implements Parser{
         for (String header : defaultHeader) {
             String[] split = header.split(":");
             if(split.length != 2) {
-                throw new HeaderException("header解析失败，不支持格式：" + header);
+                throw new HeaderException("header解析失败，不支持格式：" + header,header);
             }
             headers.put(split[0].trim(),split[1].trim());
         }

@@ -14,9 +14,6 @@ import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 参数解析器
- */
 public class ParameterParser implements Parser{
 
     @Override

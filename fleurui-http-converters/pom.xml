@@ -37,6 +37,11 @@
             <groupId>com.fleurui</groupId>
             <artifactId>fleurui-http-annotations</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.fleurui</groupId>
+            <artifactId>fleurui-http-exception</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
