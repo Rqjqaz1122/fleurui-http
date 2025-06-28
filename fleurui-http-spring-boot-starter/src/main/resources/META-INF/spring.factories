@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.fleurui.spring.boot.autoconfigure.HttpServiceAutoConfiguration

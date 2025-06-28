@@ -15,6 +15,7 @@
         <module>fleurui-clients</module>
         <module>fleurui-http-model</module>
         <module>fleurui-http-exception</module>
+        <module>fleurui-http-spring-boot-starter</module>
     </modules>
 
     <properties>
@@ -58,6 +59,12 @@
             <dependency>
                 <groupId>com.fleurui</groupId>
                 <artifactId>fleurui-http-exception</artifactId>
+                <version>${version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fleurui</groupId>
+                <artifactId>fleurui-http-spring-boot-starter</artifactId>
                 <version>${version}</version>
             </dependency>
 
