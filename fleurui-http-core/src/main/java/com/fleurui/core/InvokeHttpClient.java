@@ -1,5 +1,6 @@
 package com.fleurui.core;
 
+import com.fleurui.annotations.method.HttpServer;
 import com.fleurui.converters.ConverterFactory;
 import com.fleurui.converters.HttpConverter;
 import com.fleurui.clients.HttpClient;
@@ -10,8 +11,10 @@ import com.fleurui.exception.HttpClientNullException;
 import com.fleurui.model.Request;
 import com.fleurui.model.Response;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +30,9 @@ public class InvokeHttpClient implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         try{
+            if(!validMethod(method)) {
+                return null;
+            }
             Request request = new Request();
             request.setHeaders(new HashMap<>());
             List<Parser> parserList = new ParserFactory().getParserList();
@@ -53,5 +59,21 @@ public class InvokeHttpClient implements InvocationHandler {
         }catch (Exception e) {
             throw e.getCause();
         }
+    }
+
+    private boolean validMethod(Method method) {
+        HttpServer httpServer = method.getAnnotation(HttpServer.class);
+        if(httpServer == null) {
+            Annotation[] annotations = method.getAnnotations();
+            for (Annotation annotation : annotations) {
+                boolean isPresent = HttpServer.class.isAnnotationPresent(annotation.annotationType());
+                if(isPresent) {
+                    return true;
+                }
+            }
+        }else {
+            return true;
+        }
+        return false;
     }
 }
