@@ -66,7 +66,7 @@ public class InvokeHttpClient implements InvocationHandler {
         if(httpServer == null) {
             Annotation[] annotations = method.getAnnotations();
             for (Annotation annotation : annotations) {
-                boolean isPresent = HttpServer.class.isAnnotationPresent(annotation.annotationType());
+                boolean isPresent = annotation.annotationType().isAnnotationPresent(HttpServer.class);
                 if(isPresent) {
                     return true;
                 }
