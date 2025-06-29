@@ -5,6 +5,7 @@ import com.fleurui.clients.NativeHttpClientAdapter;
 import com.fleurui.converters.HttpConverter;
 import com.fleurui.converters.json.JacksonConverter;
 import com.fleurui.converters.text.TextHtmlConverter;
+import com.fleurui.core.InterceptorRegister;
 import com.fleurui.core.builder.HttpServiceFactory;
 import com.fleurui.core.builder.register.ConverterRegister;
 import com.fleurui.core.builder.register.ParserParamsRegister;
@@ -85,12 +86,20 @@ public class HttpServiceAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
+    public InterceptorRegister interceptorRegister() {
+        return new InterceptorRegister();
+    }
+
+    @Bean
     public HttpServiceFactory httpServiceFactory(ConverterRegister converterRegister,
                                                  ParserParamsRegister parserParamsRegister,
+                                                 InterceptorRegister interceptorRegister,
                                                  HttpClient httpClient) {
         HttpServiceFactory factory = new HttpServiceFactory();
         factory.setConverterRegister(converterRegister);
         factory.setParserParamsRegister(parserParamsRegister);
+        factory.setInterceptorRegister(interceptorRegister);
         factory.setHttpClient(httpClient);
         return factory;
     }

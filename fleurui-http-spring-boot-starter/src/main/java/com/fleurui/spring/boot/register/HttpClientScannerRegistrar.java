@@ -7,11 +7,9 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotationAttributes;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
@@ -50,7 +48,6 @@ public class HttpClientScannerRegistrar implements ImportBeanDefinitionRegistrar
         for (Class<?> clazz : attributes.getClassArray("basePackageClasses")) {
             packagesToScan.add(ClassUtils.getPackageName(clazz));
         }
-        //不配做使用启动类下扫描
         if (packagesToScan.isEmpty()) {
             packagesToScan.add(ClassUtils.getPackageName(metadata.getClassName()));
         }
