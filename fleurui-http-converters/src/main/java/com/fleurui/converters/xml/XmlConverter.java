@@ -1,17 +1,15 @@
-package com.fleurui.converters.text;
+package com.fleurui.converters.xml;
 
-import com.fleurui.annotations.Order;
 import com.fleurui.converters.HttpConverter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-@Order(1)
-public class TextHtmlConverter implements HttpConverter {
+public class XmlConverter implements HttpConverter {
     @Override
     public String getContentType() {
-        return "text/html";
+        return "application/xml";
     }
 
     @Override
@@ -21,9 +19,6 @@ public class TextHtmlConverter implements HttpConverter {
 
     @Override
     public <T> T read(byte[] bytes, Class<T> clazz) throws IOException {
-        if (clazz == String.class) {
-            return clazz.cast(new String(bytes));
-        }
         return null;
     }
 

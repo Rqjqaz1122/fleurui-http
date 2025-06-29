@@ -1,12 +1,14 @@
 package com.fleurui.converters.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fleurui.annotations.Order;
 import com.fleurui.converters.HttpConverter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+@Order(1)
 public class JacksonConverter implements HttpConverter {
 
     private final ObjectMapper mapper = new ObjectMapper();

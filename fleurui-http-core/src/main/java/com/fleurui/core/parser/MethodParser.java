@@ -35,7 +35,7 @@ public class MethodParser implements Parser{
                 }
             }
         }
-        //如果为标识注解，默认GET请求
+        //如果未标识注解，默认GET请求
         if(httpServer == null) {
             request.setMethod("GET");
         }else {

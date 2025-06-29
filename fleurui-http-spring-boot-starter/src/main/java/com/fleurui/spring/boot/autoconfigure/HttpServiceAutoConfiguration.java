@@ -15,7 +15,6 @@ import com.fleurui.core.type.ParserParams;
 import com.fleurui.model.ArrayType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -89,7 +88,6 @@ public class HttpServiceAutoConfiguration {
     public HttpServiceFactory httpServiceFactory(ConverterRegister converterRegister,
                                                  ParserParamsRegister parserParamsRegister,
                                                  HttpClient httpClient) {
-        System.out.println("注册httpService");
         HttpServiceFactory factory = new HttpServiceFactory();
         factory.setConverterRegister(converterRegister);
         factory.setParserParamsRegister(parserParamsRegister);

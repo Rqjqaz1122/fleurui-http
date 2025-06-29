@@ -7,6 +7,7 @@ import com.fleurui.clients.NativeHttpClientAdapter;
 import com.fleurui.converters.HttpConverter;
 import com.fleurui.converters.json.JacksonConverter;
 import com.fleurui.converters.text.TextHtmlConverter;
+import com.fleurui.core.InterceptorRegister;
 import com.fleurui.core.type.ArrayParserAdapter;
 import com.fleurui.core.type.NumberParserAdapter;
 import com.fleurui.core.type.ObjectParserAdapter;
@@ -25,6 +26,8 @@ public class HttpServiceBuilder {
     private ParserParamsRegister parserParamsRegister;
 
     private HttpClient httpClient;
+
+    private InterceptorRegister interceptorRegister;
 
     public HttpServiceBuilder() {
         converterRegister = new ConverterRegister();
@@ -51,12 +54,18 @@ public class HttpServiceBuilder {
         return this;
     }
 
+    public HttpServiceBuilder setInterceptorRegister(InterceptorRegister interceptorRegister) {
+        this.interceptorRegister = interceptorRegister;
+        return this;
+    }
+
     public <T> T build(Class<T> clazz) {
         HttpServiceFactory httpServiceFactory = new HttpServiceFactory();
         this.initConfig();
         httpServiceFactory.setParserParamsRegister(this.parserParamsRegister);
         httpServiceFactory.setConverterRegister(this.converterRegister);
         httpServiceFactory.setHttpClient(this.httpClient);
+        httpServiceFactory.setInterceptorRegister(this.interceptorRegister);
         return httpServiceFactory.createHttpService(clazz);
     }
 
