@@ -1,14 +1,20 @@
 package com.fleurui.core;
 
 import com.fleurui.annotations.method.HttpServer;
+import com.fleurui.annotations.request.Http;
 import com.fleurui.converters.ConverterFactory;
 import com.fleurui.converters.HttpConverter;
 import com.fleurui.clients.HttpClient;
+import com.fleurui.core.builder.register.ParserParamsRegister;
 import com.fleurui.core.interceptor.InterceptorExecutionChain;
 import com.fleurui.core.interceptor.InterceptorHandler;
 import com.fleurui.core.parser.*;
+import com.fleurui.core.type.ArrayParserAdapter;
+import com.fleurui.core.type.ParserParams;
+import com.fleurui.core.type.ParserParamsFactory;
 import com.fleurui.core.utils.UrlBuilder;
 import com.fleurui.exception.ConverterNotFoundException;
+import com.fleurui.exception.HeaderException;
 import com.fleurui.exception.HttpClientNullException;
 import com.fleurui.model.Request;
 import com.fleurui.model.Response;
@@ -26,9 +32,12 @@ public class InvokeHttpClient implements InvocationHandler {
 
     private final InterceptorRegister interceptorRegister;
 
-    public InvokeHttpClient(HttpClient httpClient,InterceptorRegister interceptorRegister) {
+    private final ParserParamsRegister parserParamsRegister;
+
+    public InvokeHttpClient(HttpClient httpClient, InterceptorRegister interceptorRegister, ParserParamsRegister parserParamsRegister) {
         this.httpClient = httpClient;
         this.interceptorRegister = interceptorRegister;
+        this.parserParamsRegister = parserParamsRegister;
     }
 
     @Override
@@ -38,10 +47,11 @@ public class InvokeHttpClient implements InvocationHandler {
         }
         Request request = new Request();
         request.setHeaders(new HashMap<>());
-        List<Parser> parserList = new ParserFactory().getParserList();
-        for (Parser parser : parserList) {
-            parser.parser(request,method,args);
-        }
+        ParserParamsFactory parserParamsFactory = this.getParserParamsFactory();
+        Parser parser = new Parser(parserParamsFactory);
+        parser.classParser(request,method,args);
+        parser.methodParser(request,method);
+        parser.parameterParser(request,method,args);
         Map<String, String> params = request.getParams();
         if(params != null && !params.isEmpty()) {
             String finalUrl = UrlBuilder.create(request.getUrl()).addQuery(params);
@@ -97,4 +107,10 @@ public class InvokeHttpClient implements InvocationHandler {
         }
     }
 
+    private ParserParamsFactory getParserParamsFactory() {
+        Map<Class<?>, ParserParams> parserParamsMap = this.parserParamsRegister.getParserParamsMap();
+        ParserParamsFactory parserParamsFactory = new ParserParamsFactory();
+        parserParamsFactory.addParserParam(parserParamsMap);
+        return parserParamsFactory;
+    }
 }

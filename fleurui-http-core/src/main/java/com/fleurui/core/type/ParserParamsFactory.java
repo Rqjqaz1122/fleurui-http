@@ -8,34 +8,34 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ParserParamsFactory {
 
-    private static final Map<Class<?>,ParserParams> parserParamsMap = new HashMap<>(6);
+    private final Map<Class<?>,ParserParams> parserParamsMap = new HashMap<>(6);
 
     public ParserParamsFactory() {}
 
     public ParserParams getParserParams(Class<?> clazz) {
         boolean isArray = clazz.isArray();
         if(isArray) {
-            return parserParamsMap.get(Array.class);
+            return this.parserParamsMap.get(Array.class);
         }
-        ParserParams parserParams = parserParamsMap.get(clazz);
+        ParserParams parserParams = this.parserParamsMap.get(clazz);
         if (List.class.isAssignableFrom(clazz)) {
-            parserParams = parserParamsMap.get(List.class);
+            parserParams = this.parserParamsMap.get(List.class);
         }
         if(Number.class.isAssignableFrom(clazz)){
-            parserParams = parserParamsMap.get(Number.class);
+            parserParams = this.parserParamsMap.get(Number.class);
         }
         if(parserParams == null) {
             //没有适配的使用Object适配器
-            parserParams = parserParamsMap.get(Object.class);
+            parserParams = this.parserParamsMap.get(Object.class);
         }
         return parserParams;
     }
 
-    public static void addParserParam(Class<?> clazz,ParserParams parserParams) {
-        parserParamsMap.put(clazz,parserParams);
+    public void addParserParam(Class<?> clazz,ParserParams parserParams) {
+        this.parserParamsMap.put(clazz,parserParams);
     }
 
-    public static void addParserParam(Map<Class<?>,ParserParams> map) {
-        parserParamsMap.putAll(map);
+    public void addParserParam(Map<Class<?>,ParserParams> map) {
+        this.parserParamsMap.putAll(map);
     }
 }

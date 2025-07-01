@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContextAware;
 
 public class HttpClientFactoryBean implements FactoryBean<Object>, InitializingBean, ApplicationContextAware {
 
-    private String className;
+    private final String className;
     private Object proxy;
     private ApplicationContext applicationContext;
 
@@ -24,7 +24,7 @@ public class HttpClientFactoryBean implements FactoryBean<Object>, InitializingB
     @Override
     public Class<?> getObjectType() {
         try {
-            return Class.forName(className);
+            return Class.forName(this.className);
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException(e);
         }
@@ -37,7 +37,7 @@ public class HttpClientFactoryBean implements FactoryBean<Object>, InitializingB
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Class<?> clazz = Class.forName(className);
+        Class<?> clazz = Class.forName(this.className);
         HttpServiceFactory factory = applicationContext.getBean(HttpServiceFactory.class);
         this.proxy = factory.createHttpService(clazz);
     }

@@ -6,17 +6,15 @@ import com.fleurui.clients.HttpClient;
 import com.fleurui.converters.ConverterFactory;
 import com.fleurui.converters.HttpConverter;
 import com.fleurui.core.InterceptorRegister;
-import com.fleurui.core.type.ParserParams;
-import com.fleurui.core.type.ParserParamsFactory;
-
 import java.util.List;
-import java.util.Map;
 
 public class HttpServiceFactory {
 
     private HttpClient httpClient;
 
     private InterceptorRegister interceptorRegister;
+
+    private ParserParamsRegister parserParamsRegister;
 
     public HttpServiceFactory() {}
 
@@ -30,10 +28,7 @@ public class HttpServiceFactory {
     }
 
     public void setParserParamsRegister(ParserParamsRegister parserParamsRegister) {
-        Map<Class<?>, ParserParams> parserParamsMap = parserParamsRegister.getParserParamsMap();
-        if(!parserParamsMap.isEmpty()) {
-            ParserParamsFactory.addParserParam(parserParamsMap);
-        }
+        this.parserParamsRegister = parserParamsRegister;
     }
 
     public void setInterceptorRegister(InterceptorRegister interceptorRegister) {
@@ -41,7 +36,7 @@ public class HttpServiceFactory {
     }
 
     public <T> T createHttpService(Class<T> serviceInterface) {
-        HttpServiceProxy httpServiceProxy = new HttpServiceProxy(this.httpClient,this.interceptorRegister);
+        HttpServiceProxy httpServiceProxy = new HttpServiceProxy(this.httpClient,this.interceptorRegister,this.parserParamsRegister);
         return httpServiceProxy.createProxy(serviceInterface);
     }
 }

@@ -3,6 +3,7 @@ package com.fleurui.core.builder;
 import com.fleurui.clients.HttpClient;
 import com.fleurui.core.InvokeHttpClient;
 import com.fleurui.core.InterceptorRegister;
+import com.fleurui.core.builder.register.ParserParamsRegister;
 
 import java.lang.reflect.Proxy;
 
@@ -10,15 +11,15 @@ class HttpServiceProxy {
 
     private final HttpClient httpClient;
 
-    private InterceptorRegister interceptorRegister;
+    private final InterceptorRegister interceptorRegister;
 
-    public HttpServiceProxy(HttpClient httpClient) {
-        this.httpClient = httpClient;
-    }
+    private final ParserParamsRegister parserParamsRegister;
 
-    public HttpServiceProxy(HttpClient httpClient,InterceptorRegister interceptorRegister) {
+
+    public HttpServiceProxy(HttpClient httpClient, InterceptorRegister interceptorRegister, ParserParamsRegister parserParamsRegister) {
         this.httpClient = httpClient;
         this.interceptorRegister = interceptorRegister;
+        this.parserParamsRegister = parserParamsRegister;
     }
 
 
@@ -27,7 +28,7 @@ class HttpServiceProxy {
         return (T) Proxy.newProxyInstance(
                 serviceInterface.getClassLoader(),
                 new Class<?>[]{serviceInterface},
-                new InvokeHttpClient(httpClient,interceptorRegister)
+                new InvokeHttpClient(httpClient,interceptorRegister,parserParamsRegister)
         );
     }
 
