@@ -1,0 +1,16 @@
+package top.wrqj.clients;
+
+import top.wrqj.model.Request;
+import top.wrqj.model.Response;
+
+import java.io.IOException;
+
+public interface HttpClient {
+
+    /**
+     * 执行请求
+     * @param request
+     * @return
+     */
+    Response execute(Request request) throws IOException;
+}

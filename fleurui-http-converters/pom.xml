@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.fleurui</groupId>
+        <groupId>top.wrqj</groupId>
         <artifactId>fleurui-http</artifactId>
         <version>0.0.1-beta</version>
     </parent>
@@ -34,12 +34,12 @@
             <version>2.15.2</version>
         </dependency>
         <dependency>
-            <groupId>com.fleurui</groupId>
+            <groupId>top.wrqj</groupId>
             <artifactId>fleurui-http-annotations</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.fleurui</groupId>
+            <groupId>top.wrqj</groupId>
             <artifactId>fleurui-http-exception</artifactId>
         </dependency>
     </dependencies>

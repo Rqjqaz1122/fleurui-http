@@ -1,6 +1,5 @@
 package com.fleurui.spring.boot.register;
 
-import com.fleurui.annotations.request.Http;
 import com.fleurui.spring.boot.enable.EnableHttpClients;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -13,6 +12,7 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
+import top.wrqj.annotations.request.Http;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;

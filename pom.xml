@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.fleurui</groupId>
+    <groupId>top.wrqj</groupId>
     <artifactId>fleurui-http</artifactId>
     <version>0.0.1-beta</version>
     <packaging>pom</packaging>
@@ -27,43 +27,43 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.fleurui</groupId>
+                <groupId>top.wrqj</groupId>
                 <artifactId>fleurui-http-model</artifactId>
                 <version>${version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.fleurui</groupId>
+                <groupId>top.wrqj</groupId>
                 <artifactId>fleurui-http-core</artifactId>
                 <version>${version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.fleurui</groupId>
+                <groupId>top.wrqj</groupId>
                 <artifactId>fleurui-http-converters</artifactId>
                 <version>${version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.fleurui</groupId>
+                <groupId>top.wrqj</groupId>
                 <artifactId>fleurui-http-annotations</artifactId>
                 <version>${version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.fleurui</groupId>
+                <groupId>top.wrqj</groupId>
                 <artifactId>fleurui-clients</artifactId>
                 <version>${version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.fleurui</groupId>
+                <groupId>top.wrqj</groupId>
                 <artifactId>fleurui-http-exception</artifactId>
                 <version>${version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.fleurui</groupId>
+                <groupId>top.wrqj</groupId>
                 <artifactId>fleurui-http-spring-boot-starter</artifactId>
                 <version>${version}</version>
             </dependency>
