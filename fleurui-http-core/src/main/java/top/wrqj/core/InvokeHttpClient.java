@@ -45,7 +45,7 @@ public class InvokeHttpClient implements InvocationHandler {
         ParserParamsFactory parserParamsFactory = this.getParserParamsFactory();
         Parser parser = new Parser(parserParamsFactory);
         parser.classParser(request,method,args);
-        parser.methodParser(request,method);
+        parser.methodParser(request,method,args);
         parser.parameterParser(request,method,args);
         Map<String, String> params = request.getParams();
         if(params != null && !params.isEmpty()) {

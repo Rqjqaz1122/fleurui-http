@@ -18,8 +18,10 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Parser {
 
@@ -45,7 +47,7 @@ public class Parser {
         }
     }
 
-    public void methodParser(Request request, Method method) {
+    public void methodParser(Request request, Method method,Object[] args) {
         HttpServer httpServer = method.getAnnotation(HttpServer.class);
         if(httpServer == null) {
             for (Annotation annotation : method.getAnnotations()) {
@@ -81,6 +83,8 @@ public class Parser {
                 if(split.length != 2) {
                     throw new HeaderException("header解析失败，不支持格式：" + item,item);
                 }
+                String headerValue = split[1];
+
                 headers.put(split[0],split[1]);
             }
         }
@@ -106,8 +110,8 @@ public class Parser {
                 request.setBody(byteArray);
             }
             Params params = parameter.getAnnotation(Params.class);
+            ParserParams parserParams = parserParamsFactory.getParserParams(arg.getClass());
             if(params != null) {
-                ParserParams parserParams = parserParamsFactory.getParserParams(arg.getClass());
                 if(parserParams == null) {
                     throw new RuntimeException("不存在当前适配类型解析器");
                 }
@@ -117,6 +121,16 @@ public class Parser {
                 }
                 Map<String, String> map = parserParams.parseParamType(value,arg);
                 paramsMap.putAll(map);
+            }
+            Header header = parameter.getAnnotation(Header.class);
+            if(header != null) {
+                String[] value = header.value();
+                String key = parameter.getName();
+                if(value != null) {
+                    key = value[0];
+                }
+                Map<String, String> map = parserParams.parseParamType(key,arg);
+                headers.putAll(map);
             }
         }
         request.setParams(paramsMap);
