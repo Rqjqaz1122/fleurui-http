@@ -1,15 +1,13 @@
 package top.wrqj.core.parser;
 
 import top.wrqj.annotations.method.HttpServer;
-import top.wrqj.annotations.request.Body;
-import top.wrqj.annotations.request.Header;
-import top.wrqj.annotations.request.Http;
-import top.wrqj.annotations.request.Params;
+import top.wrqj.annotations.request.*;
 import top.wrqj.converters.ConverterFactory;
 import top.wrqj.converters.HttpConverter;
 import top.wrqj.core.type.ParserParams;
 import top.wrqj.core.type.ParserParamsFactory;
 import top.wrqj.core.utils.UrlBuilder;
+import top.wrqj.core.utils.UrlTemplateUtils;
 import top.wrqj.exception.HeaderException;
 import top.wrqj.model.Request;
 
@@ -18,10 +16,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Parser {
 
@@ -58,6 +54,22 @@ public class Parser {
                     try {
                         valueMethod = annotation.annotationType().getMethod("value");
                         String value = (String)valueMethod.invoke(annotation);
+                        Parameter[] parameters = method.getParameters();
+                        Map<String,String> map = new HashMap<>();
+                        for (int i = 0; i < parameters.length; i++) {
+                            Parameter parameter = parameters[i];
+                            Object arg = args[i];
+                            PathParam pathParam = parameter.getAnnotation(PathParam.class);
+                            if(pathParam == null) {
+                                continue;
+                            }
+                            String pathValue = pathParam.value();
+                            map.put(pathValue,arg.toString());
+                        }
+                        if(!map.isEmpty()) {
+                            UrlTemplateUtils ofTemplate = UrlTemplateUtils.ofTemplate(value);
+                            value = ofTemplate.matching(map);
+                        }
                         String url = UrlBuilder.create(request.getUrl())
                                 .addPath(value).toString();
                         request.setUrl(url);
@@ -83,8 +95,6 @@ public class Parser {
                 if(split.length != 2) {
                     throw new HeaderException("header解析失败，不支持格式：" + item,item);
                 }
-                String headerValue = split[1];
-
                 headers.put(split[0],split[1]);
             }
         }

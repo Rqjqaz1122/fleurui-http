@@ -20,7 +20,7 @@ public class ConverterFactory {
         ConverterFactory converterFactory = new ConverterFactory();
         List<HttpConverter> list = converterFactory.getConverterList();
         List<HttpConverter> httpConverterList = list.stream()
-                .filter(item -> item.getContentType().equals(contentType))
+                .filter(item -> contentType.startsWith(item.getContentType()))
                 .sorted((o1,o2) -> {
                     Class<? extends HttpConverter> o1Class = o1.getClass();
                     int o1value = o1Class.getAnnotation(Order.class).value();
