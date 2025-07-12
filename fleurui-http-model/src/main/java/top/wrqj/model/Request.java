@@ -63,15 +63,4 @@ public class Request {
     public void setParams(Map<String, String> params) {
         this.params = params;
     }
-
-    @Override
-    public String toString() {
-        return "Request{" +
-                "url='" + url + '\'' +
-                ", method='" + method + '\'' +
-                ", headers=" + headers +
-                ", params=" + params +
-                ", body=" + Arrays.toString(body) +
-                '}';
-    }
 }
