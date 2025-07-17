@@ -18,7 +18,7 @@ Fleurui Http 是一个基于Java注解实现的轻量级HTTP请求框架，灵�
 
 ```xml
 <dependency>
-    <groupId>com.fleurui</groupId>
+    <groupId>top.wrqj</groupId>
     <artifactId>fleurui-http</artifactId>
     <version>0.0.1-beta</version>
 </dependency>
