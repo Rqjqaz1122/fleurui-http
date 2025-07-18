@@ -4,6 +4,7 @@ import top.wrqj.clients.HttpClient;
 import top.wrqj.core.InvokeHttpClient;
 import top.wrqj.core.InterceptorRegister;
 import top.wrqj.core.builder.register.ParserParamsRegister;
+import top.wrqj.model.HttpConfig;
 
 import java.lang.reflect.Proxy;
 
@@ -15,11 +16,14 @@ class HttpServiceProxy {
 
     private final ParserParamsRegister parserParamsRegister;
 
+    private final HttpConfig httpConfig;
 
-    public HttpServiceProxy(HttpClient httpClient, InterceptorRegister interceptorRegister, ParserParamsRegister parserParamsRegister) {
+
+    public HttpServiceProxy(HttpClient httpClient, InterceptorRegister interceptorRegister, ParserParamsRegister parserParamsRegister,HttpConfig config) {
         this.httpClient = httpClient;
         this.interceptorRegister = interceptorRegister;
         this.parserParamsRegister = parserParamsRegister;
+        this.httpConfig = config;
     }
 
 
@@ -28,7 +32,7 @@ class HttpServiceProxy {
         return (T) Proxy.newProxyInstance(
                 serviceInterface.getClassLoader(),
                 new Class<?>[]{serviceInterface},
-                new InvokeHttpClient(httpClient,interceptorRegister,parserParamsRegister)
+                new InvokeHttpClient(httpClient,interceptorRegister,parserParamsRegister,httpConfig)
         );
     }
 

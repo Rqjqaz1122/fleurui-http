@@ -13,6 +13,7 @@ import top.wrqj.core.type.NumberParserAdapter;
 import top.wrqj.core.type.ObjectParserAdapter;
 import top.wrqj.core.type.ParserParams;
 import top.wrqj.model.ArrayType;
+import top.wrqj.model.HttpConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,10 +30,13 @@ public class HttpServiceBuilder {
 
     private InterceptorRegister interceptorRegister;
 
+    private HttpConfig config;
+
     public HttpServiceBuilder() {
         converterRegister = new ConverterRegister();
         parserParamsRegister = new ParserParamsRegister();
         httpClient = new NativeHttpClientAdapter();
+        this.config = new HttpConfig();
     }
 
     public static HttpServiceBuilder builder() {
@@ -59,6 +63,11 @@ public class HttpServiceBuilder {
         return this;
     }
 
+    public HttpServiceBuilder setHttpConfig(HttpConfig httpConfig) {
+        this.config = httpConfig;
+        return this;
+    }
+
     public <T> T build(Class<T> clazz) {
         HttpServiceFactory httpServiceFactory = new HttpServiceFactory();
         this.initConfig();
@@ -66,6 +75,7 @@ public class HttpServiceBuilder {
         httpServiceFactory.setConverterRegister(this.converterRegister);
         httpServiceFactory.setHttpClient(this.httpClient);
         httpServiceFactory.setInterceptorRegister(this.interceptorRegister);
+        httpServiceFactory.setHttpConfig(this.config);
         return httpServiceFactory.createHttpService(clazz);
     }
 

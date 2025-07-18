@@ -1,5 +1,6 @@
 package top.wrqj.clients;
 
+import top.wrqj.model.HttpConfig;
 import top.wrqj.model.Request;
 import top.wrqj.model.Response;
 
@@ -13,4 +14,6 @@ public interface HttpClient {
      * @return
      */
     Response execute(Request request) throws IOException;
+
+    void configure(HttpConfig httpConfig);
 }

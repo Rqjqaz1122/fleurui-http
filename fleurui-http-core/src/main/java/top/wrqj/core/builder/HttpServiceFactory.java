@@ -6,6 +6,8 @@ import top.wrqj.converters.HttpConverter;
 import top.wrqj.core.builder.register.ConverterRegister;
 import top.wrqj.core.builder.register.ParserParamsRegister;
 import top.wrqj.core.InterceptorRegister;
+import top.wrqj.model.HttpConfig;
+
 import java.util.List;
 
 public class HttpServiceFactory {
@@ -15,6 +17,8 @@ public class HttpServiceFactory {
     private InterceptorRegister interceptorRegister;
 
     private ParserParamsRegister parserParamsRegister;
+
+    private HttpConfig httpConfig;
 
     public HttpServiceFactory() {}
 
@@ -35,8 +39,12 @@ public class HttpServiceFactory {
         this.interceptorRegister = interceptorRegister;
     }
 
+    public void setHttpConfig(HttpConfig httpConfig) {
+        this.httpConfig = httpConfig;
+    }
+
     public <T> T createHttpService(Class<T> serviceInterface) {
-        HttpServiceProxy httpServiceProxy = new HttpServiceProxy(this.httpClient,this.interceptorRegister,this.parserParamsRegister);
+        HttpServiceProxy httpServiceProxy = new HttpServiceProxy(this.httpClient,this.interceptorRegister,this.parserParamsRegister,this.httpConfig);
         return httpServiceProxy.createProxy(serviceInterface);
     }
 }

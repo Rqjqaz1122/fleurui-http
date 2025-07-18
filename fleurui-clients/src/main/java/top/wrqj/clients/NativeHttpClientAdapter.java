@@ -1,5 +1,6 @@
 package top.wrqj.clients;
 
+import top.wrqj.model.HttpConfig;
 import top.wrqj.model.Request;
 import top.wrqj.model.Response;
 import java.io.*;
@@ -10,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 public class NativeHttpClientAdapter implements HttpClient{
+
+    private HttpConfig httpConfig;
+
     @Override
     public Response execute(Request request) throws IOException {
         URL url = new URL(request.getUrl());
@@ -25,6 +29,8 @@ public class NativeHttpClientAdapter implements HttpClient{
                     os.write(request.getBody());
                 }
             }
+            connection.setConnectTimeout(httpConfig.getConnectionTimeout());
+            connection.setReadTimeout(httpConfig.getReadTimeout());
             int responseCode = connection.getResponseCode();
             Map<String,String> headers = new HashMap<>();
             for (Map.Entry<String, List<String>> entry : connection.getHeaderFields().entrySet()) {
@@ -42,5 +48,10 @@ public class NativeHttpClientAdapter implements HttpClient{
         }finally {
             connection.disconnect();
         }
+    }
+
+    @Override
+    public void configure(HttpConfig httpConfig) {
+        this.httpConfig = httpConfig;
     }
 }

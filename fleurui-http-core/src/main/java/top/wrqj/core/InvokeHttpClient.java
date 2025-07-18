@@ -13,6 +13,7 @@ import top.wrqj.core.type.ParserParamsFactory;
 import top.wrqj.core.utils.UrlBuilder;
 import top.wrqj.exception.ConverterNotFoundException;
 import top.wrqj.exception.HttpClientNullException;
+import top.wrqj.model.HttpConfig;
 import top.wrqj.model.Request;
 import top.wrqj.model.Response;
 import java.lang.annotation.Annotation;
@@ -29,10 +30,13 @@ public class InvokeHttpClient implements InvocationHandler {
 
     private final ParserParamsRegister parserParamsRegister;
 
-    public InvokeHttpClient(HttpClient httpClient, InterceptorRegister interceptorRegister, ParserParamsRegister parserParamsRegister) {
+    private final HttpConfig httpConfig;
+
+    public InvokeHttpClient(HttpClient httpClient, InterceptorRegister interceptorRegister, ParserParamsRegister parserParamsRegister,HttpConfig httpConfig) {
         this.httpClient = httpClient;
         this.interceptorRegister = interceptorRegister;
         this.parserParamsRegister = parserParamsRegister;
+        this.httpConfig = httpConfig;
     }
 
     @Override
@@ -55,6 +59,7 @@ public class InvokeHttpClient implements InvocationHandler {
         if(httpClient == null) {
             throw new HttpClientNullException();
         }
+        httpClient.configure(httpConfig);
         this.before(request);
         Response response = httpClient.execute(request);
         byte[] body = response.getBody();
