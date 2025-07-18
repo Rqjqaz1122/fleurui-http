@@ -1,6 +1,7 @@
 package top.wrqj.core.type;
 
-import java.lang.reflect.Array;
+import top.wrqj.model.ArrayType;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ public class ParserParamsFactory {
     public ParserParams getParserParams(Class<?> clazz) {
         boolean isArray = clazz.isArray();
         if(isArray) {
-            return this.parserParamsMap.get(Array.class);
+            return this.parserParamsMap.get(ArrayType.class);
         }
         ParserParams parserParams = this.parserParamsMap.get(clazz);
         if (List.class.isAssignableFrom(clazz)) {
@@ -24,7 +25,6 @@ public class ParserParamsFactory {
             parserParams = this.parserParamsMap.get(Number.class);
         }
         if(parserParams == null) {
-            //没有适配的使用Object适配器
             parserParams = this.parserParamsMap.get(Object.class);
         }
         return parserParams;
