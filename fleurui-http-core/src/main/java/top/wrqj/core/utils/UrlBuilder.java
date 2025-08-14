@@ -17,6 +17,9 @@ public class UrlBuilder {
     }
 
     public UrlBuilder addPath(String path){
+        if(path == null || path.isEmpty()) {
+            return this;
+        }
         String urlPath = checkPath(path);
         this.url = this.url + urlPath;
         return this;
@@ -60,8 +63,8 @@ public class UrlBuilder {
                 trim = "/" + trim;
             }
             boolean endFlag = trim.endsWith("/");
-            if(!endFlag){
-                trim = trim + "/";
+            if(endFlag){
+                trim = trim.substring(trim.lastIndexOf("/"));
             }
         }
         return trim;

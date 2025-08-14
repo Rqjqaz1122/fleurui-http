@@ -136,7 +136,7 @@ public class Parser {
             if(header != null) {
                 String[] value = header.value();
                 String key = parameter.getName();
-                if(value != null) {
+                if(value != null && value.length > 0) {
                     key = value[0];
                 }
                 Map<String, String> map = parserParams.parseParamType(key,arg);

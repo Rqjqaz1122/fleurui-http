@@ -6,7 +6,7 @@
     <parent>
         <groupId>top.wrqj</groupId>
         <artifactId>fleurui-http</artifactId>
-        <version>0.0.1-beta</version>
+        <version>0.0.3</version>
     </parent>
 
     <name>Fleurui-Http</name>
@@ -25,31 +25,26 @@
         <dependency>
             <groupId>top.wrqj</groupId>
             <artifactId>fleurui-http-annotations</artifactId>
-            <version>0.0.1-beta</version>
         </dependency>
 
         <dependency>
             <groupId>top.wrqj</groupId>
             <artifactId>fleurui-clients</artifactId>
-            <version>0.0.1-beta</version>
         </dependency>
 
         <dependency>
             <groupId>top.wrqj</groupId>
             <artifactId>fleurui-http-exception</artifactId>
-            <version>0.0.1-beta</version>
         </dependency>
 
         <dependency>
             <groupId>top.wrqj</groupId>
             <artifactId>fleurui-http-converters</artifactId>
-            <version>0.0.1-beta</version>
         </dependency>
 
         <dependency>
             <groupId>top.wrqj</groupId>
             <artifactId>fleurui-http-model</artifactId>
-            <version>0.0.1-beta</version>
         </dependency>
     </dependencies>
 
