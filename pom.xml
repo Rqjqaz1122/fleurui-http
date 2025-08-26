@@ -6,17 +6,8 @@
 
     <groupId>top.wrqj</groupId>
     <artifactId>fleurui-http</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <packaging>pom</packaging>
-    <modules>
-        <module>fleurui-http-core</module>
-        <module>fleurui-http-annotations</module>
-        <module>fleurui-http-converters</module>
-        <module>fleurui-clients</module>
-        <module>fleurui-http-model</module>
-        <module>fleurui-http-exception</module>
-        <module>fleurui-http-spring-boot-starter</module>
-    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -24,51 +15,21 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>top.wrqj</groupId>
-                <artifactId>fleurui-http-model</artifactId>
-                <version>${version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>top.wrqj</groupId>
-                <artifactId>fleurui-http-core</artifactId>
-                <version>${version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>top.wrqj</groupId>
-                <artifactId>fleurui-http-converters</artifactId>
-                <version>${version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>top.wrqj</groupId>
-                <artifactId>fleurui-http-annotations</artifactId>
-                <version>${version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>top.wrqj</groupId>
-                <artifactId>fleurui-clients</artifactId>
-                <version>${version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>top.wrqj</groupId>
-                <artifactId>fleurui-http-exception</artifactId>
-                <version>${version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>top.wrqj</groupId>
-                <artifactId>fleurui-http-spring-boot-starter</artifactId>
-                <version>${version}</version>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+    </dependencies>
 </project>

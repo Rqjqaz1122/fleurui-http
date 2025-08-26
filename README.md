@@ -115,7 +115,7 @@ ExampleApi build = HttpServiceBuilder.builder()
 在请求在执行过程中框架会自动根据请求头Content-Type获取所适配的转换器解析响应数据，具体实现方法如下
 
 ```java
-// 实现top.wrqj.converters.HttpConverter接口
+// 实现top.wrqj.top.wrqj.converters.HttpConverter接口
 public class JacksonConverter implements HttpConverter {
 
     private final ObjectMapper mapper = new ObjectMapper();
