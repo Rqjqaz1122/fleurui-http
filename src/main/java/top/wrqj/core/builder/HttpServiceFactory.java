@@ -27,8 +27,9 @@ public class HttpServiceFactory {
     }
 
     public void setConverterRegister(ConverterRegister converterRegister) {
-        List<HttpConverter> httpConverters = converterRegister.getHttpConverters();
-        ConverterFactory.addConverter(httpConverters);
+        List<HttpConverter> converterList = converterRegister.getConverterList();
+        ConverterFactory converterFactory = new ConverterFactory();
+        converterFactory.addConverter(converterList);
     }
 
     public void setParserParamsRegister(ParserParamsRegister parserParamsRegister) {

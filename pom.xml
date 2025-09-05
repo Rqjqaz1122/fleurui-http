@@ -6,8 +6,11 @@
 
     <groupId>top.wrqj</groupId>
     <artifactId>fleurui-http</artifactId>
-    <version>0.0.4</version>
-    <packaging>pom</packaging>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <name>Fleurui-Http</name>
+    <url>https://github.com/Rqjqaz1122/fleurui-http</url>
+    <description>Fleurui Http</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -32,4 +35,102 @@
             <version>2.15.2</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- maven编译插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <!-- maven Source插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- maven Javadoc插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.10.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- gpg插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <!-- 改成你自己的路径 -->
+                    <executable>/opt/homebrew/bin/gpg</executable>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 发布插件 -->
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.5.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <!--<tokenAuth>true</tokenAuth>-->
+                    <!-- 若要自动发布，添加以下配置 -->
+                    <!--<autoPublish>true</autoPublish>-->
+                    <!-- 一直等到发布完成 -->
+                    <!--<waitUntil>published</waitUntil>-->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Fleurui</name>
+            <email>2605912054@qq.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:github.com/Rqjqaz1122/fleurui-http.git</connection>
+        <developerConnection>scm:github.com/Rqjqaz1122/fleurui-http.git</developerConnection>
+        <url>https://github.com/Rqjqaz1122/fleurui-http.git</url>
+    </scm>
 </project>

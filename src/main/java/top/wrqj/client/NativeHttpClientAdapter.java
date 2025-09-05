@@ -3,7 +3,6 @@ package top.wrqj.client;
 import top.wrqj.model.HttpConfig;
 import top.wrqj.model.Request;
 import top.wrqj.model.Response;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

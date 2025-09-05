@@ -10,7 +10,7 @@ public interface HttpConverter {
      * 获取contentType，实现接口必须要指定返回转换器适配的类型
      * @return string
      */
-    String getContentType();
+    String getType();
 
     /**
      * 从输入流中读取数据转为Java对象

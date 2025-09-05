@@ -1,15 +1,13 @@
-package top.wrqj.converters.xml;
-
-import top.wrqj.converters.HttpConverter;
+package top.wrqj.converters;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class XmlConverter implements HttpConverter {
+public class TextHtmlConverter implements HttpConverter {
     @Override
-    public String getContentType() {
-        return "application/xml";
+    public String getType() {
+        return "text/html";
     }
 
     @Override
@@ -19,6 +17,9 @@ public class XmlConverter implements HttpConverter {
 
     @Override
     public <T> T read(byte[] bytes, Class<T> clazz) throws IOException {
+        if (clazz == String.class) {
+            return clazz.cast(new String(bytes));
+        }
         return null;
     }
 

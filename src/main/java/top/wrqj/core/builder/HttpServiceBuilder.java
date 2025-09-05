@@ -4,8 +4,8 @@ import top.wrqj.client.HttpClient;
 import top.wrqj.client.NativeHttpClientAdapter;
 import top.wrqj.core.builder.register.ConverterRegister;
 import top.wrqj.converters.HttpConverter;
-import top.wrqj.converters.json.JacksonConverter;
-import top.wrqj.converters.text.TextHtmlConverter;
+import top.wrqj.converters.JsonConverter;
+import top.wrqj.converters.TextHtmlConverter;
 import top.wrqj.core.InterceptorRegister;
 import top.wrqj.core.builder.register.ParserParamsRegister;
 import top.wrqj.core.type.ArrayParserAdapter;
@@ -87,7 +87,7 @@ public class HttpServiceBuilder {
         parserParamsRegister.addParserParams(parserParamsMap);
         List<HttpConverter> httpConverters = new ArrayList<>();
         httpConverters.add(new TextHtmlConverter());
-        httpConverters.add(new JacksonConverter());
+        httpConverters.add(new JsonConverter());
         converterRegister.addConverter(httpConverters);
     }
 }

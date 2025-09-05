@@ -2,29 +2,30 @@ package top.wrqj.core.builder.register;
 
 import top.wrqj.converters.HttpConverter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ConverterRegister {
 
-    private final List<HttpConverter> httpConverters = new ArrayList<>();
+    private final List<HttpConverter> httpConverterList = new LinkedList<>();
 
-    public ConverterRegister(){}
+    public ConverterRegister(){
+    }
 
     public ConverterRegister(HttpConverter ...httpConverters) {
         this.addConverter(httpConverters);
     }
 
     public void addConverter(HttpConverter ...httpConverters) {
-        this.httpConverters.addAll(Arrays.asList(httpConverters));
+        this.httpConverterList.addAll(Arrays.asList(httpConverters));
     }
 
     public void addConverter(List<HttpConverter> httpConverters) {
-        this.httpConverters.addAll(httpConverters);
+        this.httpConverterList.addAll(httpConverters);
     }
 
-    public List<HttpConverter> getHttpConverters() {
-        return this.httpConverters;
+    public List<HttpConverter> getConverterList() {
+        return this.httpConverterList;
     }
 }

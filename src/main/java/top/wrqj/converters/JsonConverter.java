@@ -1,20 +1,16 @@
-package top.wrqj.converters.json;
+package top.wrqj.converters;
 
-import top.wrqj.annotations.Order;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import top.wrqj.converters.HttpConverter;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-@Order(1)
-public class JacksonConverter implements HttpConverter {
+public class JsonConverter implements HttpConverter {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public String getContentType() {
+    public String getType() {
         return "application/json";
     }
 

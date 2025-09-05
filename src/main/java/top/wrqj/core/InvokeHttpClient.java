@@ -67,9 +67,6 @@ public class InvokeHttpClient implements InvocationHandler {
         Map<String, String> headers = response.getHeaders();
         String contentType = headers.get("Content-Type");
         HttpConverter converter = ConverterFactory.getConverter(contentType);
-        if(converter == null) {
-            throw new ConverterNotFoundException("找不到适配：" + contentType + "类型转换器");
-        }
         this.after(response);
         return converter.read(body, method.getReturnType());
     }
