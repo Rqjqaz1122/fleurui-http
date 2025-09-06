@@ -1,7 +1,5 @@
 package top.wrqj.core.interceptor;
 
-import top.wrqj.core.interceptor.InterceptorHandler;
-
 import java.util.LinkedList;
 import java.util.List;
 
