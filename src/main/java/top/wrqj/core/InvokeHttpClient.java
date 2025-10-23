@@ -14,6 +14,7 @@ import top.wrqj.core.utils.UrlBuilder;
 import top.wrqj.exception.ConverterNotFoundException;
 import top.wrqj.exception.HttpClientNullException;
 import top.wrqj.model.HttpConfig;
+import top.wrqj.model.HttpServiceContext;
 import top.wrqj.model.Request;
 import top.wrqj.model.Response;
 
@@ -25,19 +26,10 @@ import java.util.Map;
 
 public class InvokeHttpClient implements InvocationHandler {
 
-    private final HttpClient httpClient;
+    private final HttpServiceContext httpServiceContext;
 
-    private final InterceptorRegister interceptorRegister;
-
-    private final ParserParamsRegister parserParamsRegister;
-
-    private final HttpConfig httpConfig;
-
-    public InvokeHttpClient(HttpClient httpClient, InterceptorRegister interceptorRegister, ParserParamsRegister parserParamsRegister,HttpConfig httpConfig) {
-        this.httpClient = httpClient;
-        this.interceptorRegister = interceptorRegister;
-        this.parserParamsRegister = parserParamsRegister;
-        this.httpConfig = httpConfig;
+    public InvokeHttpClient(HttpServiceContext httpServiceContext) {
+        this.httpServiceContext = httpServiceContext;
     }
 
     @Override
@@ -49,14 +41,14 @@ public class InvokeHttpClient implements InvocationHandler {
         request.setHeaders(new HashMap<>());
         ParserParamsFactory parserParamsFactory = this.getParserParamsFactory();
         Parser parser = new Parser(parserParamsFactory);
-        parser.classParser(request,method,args);
-        parser.methodParser(request,method,args);
-        parser.parameterParser(request,method,args);
+        parser.parser(request, method, args);
         Map<String, String> params = request.getParams();
         if(params != null && !params.isEmpty()) {
             String finalUrl = UrlBuilder.create(request.getUrl()).addQuery(params);
             request.setUrl(finalUrl);
         }
+        HttpClient httpClient = httpServiceContext.getHttpClient();
+        HttpConfig httpConfig = httpServiceContext.getHttpConfig();
         if(httpClient == null) {
             throw new HttpClientNullException();
         }
@@ -88,8 +80,9 @@ public class InvokeHttpClient implements InvocationHandler {
     }
 
     private void before(Request request) {
-        if(this.interceptorRegister != null) {
-            InterceptorExecutionChain chain = this.interceptorRegister.getInterceptorExecutionChain();
+        InterceptorRegister interceptorRegister = httpServiceContext.getInterceptorRegister();
+        if(interceptorRegister != null) {
+            InterceptorExecutionChain chain = interceptorRegister.getInterceptorExecutionChain();
             for (InterceptorHandler interceptorHandler : chain.getInterceptorList()) {
                 interceptorHandler.beforeExecution(request);
             }
@@ -97,8 +90,9 @@ public class InvokeHttpClient implements InvocationHandler {
     }
 
     private void after(Response response) {
-        if(this.interceptorRegister != null) {
-            InterceptorExecutionChain chain = this.interceptorRegister.getInterceptorExecutionChain();
+        InterceptorRegister interceptorRegister = httpServiceContext.getInterceptorRegister();
+        if(interceptorRegister != null) {
+            InterceptorExecutionChain chain = interceptorRegister.getInterceptorExecutionChain();
             for (InterceptorHandler interceptorHandler : chain.getInterceptorList()) {
                 interceptorHandler.afterExecution(response);
             }
@@ -106,7 +100,8 @@ public class InvokeHttpClient implements InvocationHandler {
     }
 
     private ParserParamsFactory getParserParamsFactory() {
-        Map<Class<?>, ParserParams> parserParamsMap = this.parserParamsRegister.getParserParamsMap();
+        ParserParamsRegister parserParamsRegister = httpServiceContext.getParserParamsRegister();
+        Map<Class<?>, ParserParams> parserParamsMap = parserParamsRegister.getParserParamsMap();
         ParserParamsFactory parserParamsFactory = new ParserParamsFactory();
         parserParamsFactory.addParserParam(parserParamsMap);
         return parserParamsFactory;

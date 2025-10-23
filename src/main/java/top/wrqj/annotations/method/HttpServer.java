@@ -8,5 +8,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD,ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HttpServer {
-    String value() default "GET";
+    String value() default "";
+    String method() default "GET";
 }
