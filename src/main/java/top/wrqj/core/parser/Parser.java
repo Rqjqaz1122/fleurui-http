@@ -2,6 +2,7 @@ package top.wrqj.core.parser;
 
 import top.wrqj.common.annotations.method.HttpServer;
 import top.wrqj.common.annotations.request.*;
+import top.wrqj.common.utils.HttpServiceContextHolder;
 import top.wrqj.converters.ConverterFactory;
 import top.wrqj.converters.HttpConverter;
 import top.wrqj.core.type.ParserParams;
@@ -10,6 +11,7 @@ import top.wrqj.common.utils.UrlBuilder;
 import top.wrqj.common.utils.UrlTemplateUtils;
 import top.wrqj.exception.HeaderException;
 import top.wrqj.model.HttpServerMeta;
+import top.wrqj.model.HttpServiceContext;
 import top.wrqj.model.Request;
 
 import java.io.ByteArrayOutputStream;
@@ -23,14 +25,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Parser {
 
-    private final ParserParamsFactory parserParamsFactory;
-
     private final Map<Class<?>, Request> CLASS_CACHE = new ConcurrentHashMap<>();
     private final Map<Class<?>, Method> VALUE_METHOD_CACHE = new ConcurrentHashMap<>();
 
-    public Parser(ParserParamsFactory parserParamsFactory) {
-        this.parserParamsFactory = parserParamsFactory;
-    }
+    public Parser() {}
 
     public void parser(Request request, Method method, Object[] args) {
         this.classParser(request, method);
@@ -140,6 +138,8 @@ public class Parser {
                 request.setBody(bytes);
             }
             Params params = parameter.getAnnotation(Params.class);
+            HttpServiceContext context = HttpServiceContextHolder.getContext();
+            ParserParamsFactory parserParamsFactory = context.getParserParamsFactory();
             ParserParams parserParams = parserParamsFactory.getParserParams(arg.getClass());
             if (parserParams == null) {
                 throw new RuntimeException("不存在当前适配类型解析器");
@@ -165,7 +165,8 @@ public class Parser {
     }
 
     private byte[] handleBodyParam(String contentType, Object arg) {
-        HttpConverter converter = ConverterFactory.getConverter(contentType);
+        HttpServiceContext context = HttpServiceContextHolder.getContext();
+        HttpConverter converter = context.getAbstractConverterFactory().getConverter(contentType);
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         converter.write(arg, output);
         return output.toByteArray();

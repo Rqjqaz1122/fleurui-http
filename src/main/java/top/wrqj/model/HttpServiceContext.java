@@ -1,25 +1,31 @@
 package top.wrqj.model;
 
 import top.wrqj.client.HttpClient;
+import top.wrqj.converters.AbstractConverterFactory;
+import top.wrqj.converters.ConverterFactory;
 import top.wrqj.core.InterceptorRegister;
 import top.wrqj.core.builder.register.ParserParamsRegister;
+import top.wrqj.core.interceptor.InterceptorExecutionChain;
+import top.wrqj.core.type.ParserParamsFactory;
 
 public class HttpServiceContext {
 
     private HttpClient httpClient;
 
-    private InterceptorRegister interceptorRegister;
+    private InterceptorExecutionChain interceptorExecutionChain;
 
-    private ParserParamsRegister parserParamsRegister;
+    private ParserParamsFactory parserParamsFactory;
+
+    private AbstractConverterFactory abstractConverterFactory;
 
     private HttpConfig httpConfig;
 
     public HttpServiceContext() {}
 
-    public HttpServiceContext(HttpClient httpClient, InterceptorRegister interceptorRegister, ParserParamsRegister parserParamsRegister, HttpConfig httpConfig) {
+    public HttpServiceContext(HttpClient httpClient, InterceptorExecutionChain interceptorExecutionChain, ParserParamsFactory parserParamsFactory, HttpConfig httpConfig) {
         this.httpClient = httpClient;
-        this.interceptorRegister = interceptorRegister;
-        this.parserParamsRegister = parserParamsRegister;
+        this.interceptorExecutionChain = interceptorExecutionChain;
+        this.parserParamsFactory = parserParamsFactory;
         this.httpConfig = httpConfig;
     }
 
@@ -31,20 +37,20 @@ public class HttpServiceContext {
         this.httpClient = httpClient;
     }
 
-    public InterceptorRegister getInterceptorRegister() {
-        return interceptorRegister;
+    public InterceptorExecutionChain getInterceptorExecutionChain() {
+        return interceptorExecutionChain;
     }
 
-    public void setInterceptorRegister(InterceptorRegister interceptorRegister) {
-        this.interceptorRegister = interceptorRegister;
+    public void setInterceptorExecutionChain(InterceptorExecutionChain interceptorExecutionChain) {
+        this.interceptorExecutionChain = interceptorExecutionChain;
     }
 
-    public ParserParamsRegister getParserParamsRegister() {
-        return parserParamsRegister;
+    public ParserParamsFactory getParserParamsFactory() {
+        return parserParamsFactory;
     }
 
-    public void setParserParamsRegister(ParserParamsRegister parserParamsRegister) {
-        this.parserParamsRegister = parserParamsRegister;
+    public void setParserParamsFactory(ParserParamsFactory parserParamsFactory) {
+        this.parserParamsFactory = parserParamsFactory;
     }
 
     public HttpConfig getHttpConfig() {
@@ -53,5 +59,13 @@ public class HttpServiceContext {
 
     public void setHttpConfig(HttpConfig httpConfig) {
         this.httpConfig = httpConfig;
+    }
+
+    public AbstractConverterFactory getAbstractConverterFactory() {
+        return abstractConverterFactory;
+    }
+
+    public void setAbstractConverterFactory(AbstractConverterFactory abstractConverterFactory) {
+        this.abstractConverterFactory = abstractConverterFactory;
     }
 }
