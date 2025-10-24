@@ -1,7 +1,8 @@
 package top.wrqj.core;
 
-import top.wrqj.annotations.method.HttpServer;
+import top.wrqj.common.annotations.method.HttpServer;
 import top.wrqj.client.HttpClient;
+import top.wrqj.common.utils.HttpServiceContextHolder;
 import top.wrqj.converters.ConverterFactory;
 import top.wrqj.converters.HttpConverter;
 import top.wrqj.core.builder.register.ParserParamsRegister;
@@ -10,8 +11,7 @@ import top.wrqj.core.interceptor.InterceptorHandler;
 import top.wrqj.core.parser.Parser;
 import top.wrqj.core.type.ParserParams;
 import top.wrqj.core.type.ParserParamsFactory;
-import top.wrqj.core.utils.UrlBuilder;
-import top.wrqj.exception.ConverterNotFoundException;
+import top.wrqj.common.utils.UrlBuilder;
 import top.wrqj.exception.HttpClientNullException;
 import top.wrqj.model.HttpConfig;
 import top.wrqj.model.HttpServiceContext;
@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InvokeHttpClient implements InvocationHandler {
+class InvokeHttpClient implements InvocationHandler {
 
     private final HttpServiceContext httpServiceContext;
 
@@ -37,6 +37,7 @@ public class InvokeHttpClient implements InvocationHandler {
         if(!validMethod(method)) {
             return null;
         }
+        HttpServiceContextHolder.setContext(httpServiceContext);
         Request request = new Request();
         request.setHeaders(new HashMap<>());
         ParserParamsFactory parserParamsFactory = this.getParserParamsFactory();
@@ -60,6 +61,7 @@ public class InvokeHttpClient implements InvocationHandler {
         String contentType = headers.get("Content-Type");
         HttpConverter converter = ConverterFactory.getConverter(contentType);
         this.after(response);
+        HttpServiceContextHolder.remove();
         return converter.read(body, method.getReturnType());
     }
 

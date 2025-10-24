@@ -1,14 +1,13 @@
-package top.wrqj.annotations;
+package top.wrqj.common.annotations.method;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.TYPE})
+@HttpServer
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Order {
-
-    int value() default 0;
-
+public @interface Get {
+    String value() default "";
 }

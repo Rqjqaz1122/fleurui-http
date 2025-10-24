@@ -1,4 +1,6 @@
-package top.wrqj.annotations.method;
+package top.wrqj.common.annotations.method;
+
+import top.wrqj.common.enums.HttpMethod;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,5 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HttpServer {
     String value() default "";
-    String method() default "GET";
+    HttpMethod method() default HttpMethod.GET;
 }

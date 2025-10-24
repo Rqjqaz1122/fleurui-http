@@ -1,13 +1,13 @@
 package top.wrqj.core.parser;
 
-import top.wrqj.annotations.method.HttpServer;
-import top.wrqj.annotations.request.*;
+import top.wrqj.common.annotations.method.HttpServer;
+import top.wrqj.common.annotations.request.*;
 import top.wrqj.converters.ConverterFactory;
 import top.wrqj.converters.HttpConverter;
 import top.wrqj.core.type.ParserParams;
 import top.wrqj.core.type.ParserParamsFactory;
-import top.wrqj.core.utils.UrlBuilder;
-import top.wrqj.core.utils.UrlTemplateUtils;
+import top.wrqj.common.utils.UrlBuilder;
+import top.wrqj.common.utils.UrlTemplateUtils;
 import top.wrqj.exception.HeaderException;
 import top.wrqj.model.HttpServerMeta;
 import top.wrqj.model.Request;
@@ -63,7 +63,7 @@ public class Parser {
         Map<String, String> pathParam = this.parsePathParamMeta(method.getParameters(), args);
         String url = this.buildUrl(request.getUrl(), httpServerMeta.getTemplateUrl(), pathParam);
         request.setUrl(url);
-        request.setMethod(httpServerMeta.getHttpMethod());
+        request.setMethod(String.valueOf(httpServerMeta.getHttpMethod()));
         Header header = method.getAnnotation(Header.class);
         if (header != null) {
             this.parserHeaders(request.getHeaders(), header.value());

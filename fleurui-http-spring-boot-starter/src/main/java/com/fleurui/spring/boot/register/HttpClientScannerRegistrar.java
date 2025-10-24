@@ -12,7 +12,7 @@ import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
-import top.wrqj.annotations.request.Http;
+import top.wrqj.common.annotations.request.Http;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;

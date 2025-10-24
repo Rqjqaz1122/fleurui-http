@@ -1,14 +1,11 @@
-package top.wrqj.annotations.request;
+package top.wrqj.common.annotations.request;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target({ElementType.PARAMETER,ElementType.METHOD})
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Header {
-
-    String[] value() default {};
-
+public @interface Body {
 }

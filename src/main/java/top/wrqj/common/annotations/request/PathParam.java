@@ -1,15 +1,14 @@
-package top.wrqj.annotations.request;
+package top.wrqj.common.annotations.request;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
+@Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Http {
+public @interface PathParam {
 
-    String value() default "";
+    String value();
 
-    String[] defaultHeader() default {};
 }

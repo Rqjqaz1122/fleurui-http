@@ -2,6 +2,7 @@ package top.wrqj.core.builder;
 
 import top.wrqj.client.HttpClient;
 import top.wrqj.client.NativeHttpClientAdapter;
+import top.wrqj.core.HttpServiceFactory;
 import top.wrqj.core.builder.register.ConverterRegister;
 import top.wrqj.converters.HttpConverter;
 import top.wrqj.converters.JsonConverter;
@@ -22,6 +23,8 @@ import java.util.Map;
 
 public class HttpServiceBuilder {
 
+    private Class<?> clazz;
+
     private ConverterRegister converterRegister;
 
     private ParserParamsRegister parserParamsRegister;
@@ -39,8 +42,20 @@ public class HttpServiceBuilder {
         this.config = new HttpConfig();
     }
 
+    public HttpServiceBuilder(Class<?> clazz) {
+        converterRegister = new ConverterRegister();
+        parserParamsRegister = new ParserParamsRegister();
+        httpClient = new NativeHttpClientAdapter();
+        this.config = new HttpConfig();
+        this.clazz = clazz;
+    }
+
     public static HttpServiceBuilder builder() {
         return new HttpServiceBuilder();
+    }
+
+    public static HttpServiceBuilder create(Class<?> clazz) {
+        return new HttpServiceBuilder(clazz);
     }
 
     public HttpServiceBuilder setConverterRegister(ConverterRegister converterRegister) {

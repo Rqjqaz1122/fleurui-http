@@ -1,4 +1,4 @@
-package top.wrqj.core.utils;
+package top.wrqj.common.utils;
 
 import java.util.ArrayList;
 import java.util.List;

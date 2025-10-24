@@ -1,10 +1,8 @@
-package top.wrqj.core.builder;
+package top.wrqj.core;
 
 import top.wrqj.client.HttpClient;
 import top.wrqj.converters.ConverterFactory;
 import top.wrqj.converters.HttpConverter;
-import top.wrqj.core.HttpServiceProxy;
-import top.wrqj.core.InterceptorRegister;
 import top.wrqj.core.builder.register.ConverterRegister;
 import top.wrqj.core.builder.register.ParserParamsRegister;
 import top.wrqj.model.HttpConfig;

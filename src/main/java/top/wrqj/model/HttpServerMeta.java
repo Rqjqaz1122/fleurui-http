@@ -1,22 +1,24 @@
 package top.wrqj.model;
 
+import top.wrqj.common.enums.HttpMethod;
+
 public class HttpServerMeta {
 
-    private String httpMethod;
+    private HttpMethod httpMethod;
     private String templateUrl;
 
     public HttpServerMeta() {}
 
-    public HttpServerMeta(String httpMethod, String templateUrl) {
+    public HttpServerMeta(HttpMethod httpMethod, String templateUrl) {
         this.httpMethod = httpMethod;
         this.templateUrl = templateUrl;
     }
 
-    public String getHttpMethod() {
+    public HttpMethod getHttpMethod() {
         return httpMethod;
     }
 
-    public void setHttpMethod(String httpMethod) {
+    public void setHttpMethod(HttpMethod httpMethod) {
         this.httpMethod = httpMethod;
     }
 
