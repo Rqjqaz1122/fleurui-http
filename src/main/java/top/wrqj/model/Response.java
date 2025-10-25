@@ -1,7 +1,10 @@
 package top.wrqj.model;
 
+import lombok.Data;
+
 import java.util.Map;
 
+@Data
 public class Response {
 
     private final int statusCode;
@@ -16,20 +19,4 @@ public class Response {
         this.body = body;
     }
 
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public Map<String, String> getHeaders() {
-        return headers;
-    }
-
-    public byte[] getBody() {
-        return body;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
 }

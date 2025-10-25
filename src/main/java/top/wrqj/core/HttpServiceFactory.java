@@ -1,5 +1,6 @@
 package top.wrqj.core;
 
+import lombok.Setter;
 import top.wrqj.client.HttpClient;
 import top.wrqj.client.NativeHttpClientAdapter;
 import top.wrqj.converters.AbstractConverterFactory;
@@ -15,6 +16,7 @@ import top.wrqj.model.HttpServiceContext;
 import java.util.List;
 import java.util.Map;
 
+@Setter
 public class HttpServiceFactory {
 
     private HttpClient httpClient = new NativeHttpClientAdapter();
@@ -29,27 +31,7 @@ public class HttpServiceFactory {
 
     public HttpServiceFactory() {
     }
-
-    public void setHttpClient(HttpClient httpClient) {
-        this.httpClient = httpClient;
-    }
-
-    public void setConverterRegister(ConverterRegister converterRegister) {
-        this.converterRegister = converterRegister;
-    }
-
-    public void setParserParamsRegister(ParserParamsRegister parserParamsRegister) {
-        this.parserParamsRegister = parserParamsRegister;
-    }
-
-    public void setInterceptorRegister(InterceptorRegister interceptorRegister) {
-        this.interceptorRegister = interceptorRegister;
-    }
-
-    public void setHttpConfig(HttpConfig httpConfig) {
-        this.httpConfig = httpConfig;
-    }
-
+    
     public <T> T createHttpService(Class<T> serviceInterface) {
         HttpServiceProxy httpServiceProxy = new HttpServiceProxy(this.initHttpServiceContext());
         return httpServiceProxy.createProxy(serviceInterface);
