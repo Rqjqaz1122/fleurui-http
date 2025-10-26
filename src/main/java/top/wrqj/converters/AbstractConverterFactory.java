@@ -22,9 +22,13 @@ public abstract class AbstractConverterFactory {
      * @return
      */
     public HttpConverter getConverter(String contentType) {
+        String[] split = contentType.split(";");
+        if (split.length == 2) {
+            contentType = split[0].trim();
+        }
         HttpConverter httpConverter = this.get(contentType);
         if(httpConverter == null) {
-            throw new ConverterNotFoundException("找不到适配：" + contentType + "类型转换器");
+            throw new ConverterNotFoundException("ContentType adapter not found: " + contentType);
         }
         return httpConverter;
     }

@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class HttpConfig {
 
-    private Integer connectionTimeout = 1000;
+    private Integer connectionTimeout = 10000;
 
-    private Integer readTimeout = 5000;
+    private Integer readTimeout = 50000;
 
     private Integer maxRetry = 0;
 
