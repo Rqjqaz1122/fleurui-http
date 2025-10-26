@@ -7,10 +7,7 @@ import top.wrqj.converters.AbstractConverterFactory;
 import top.wrqj.converters.ConverterFactory;
 import top.wrqj.core.builder.register.ConverterRegister;
 import top.wrqj.core.builder.register.ParserParamsRegister;
-import top.wrqj.core.parser.BodyAnnotationHandler;
-import top.wrqj.core.parser.HttpAnnotationHandler;
-import top.wrqj.core.parser.HttpServerAnnotationHandler;
-import top.wrqj.core.parser.PathParamAnnotationHandler;
+import top.wrqj.core.parser.*;
 import top.wrqj.core.type.ParserParams;
 import top.wrqj.core.type.ParserParamsFactory;
 import top.wrqj.model.HttpConfig;
@@ -39,6 +36,7 @@ public class HttpServiceFactory {
         annotationHandlerRegister.registerAnnotationHandler(new HttpAnnotationHandler());
         annotationHandlerRegister.registerAnnotationHandler(new PathParamAnnotationHandler());
         annotationHandlerRegister.registerAnnotationHandler(new BodyAnnotationHandler());
+        annotationHandlerRegister.registerAnnotationHandler(new ParamsAnnotationHandler());
     }
     
     public <T> T createHttpService(Class<T> serviceInterface) {

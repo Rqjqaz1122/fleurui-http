@@ -29,12 +29,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Parser {
 
     private final InvokeClassCache classCache = new InvokeClassCache();
-    private final Map<Class<?>, Method> VALUE_METHOD_CACHE = new ConcurrentHashMap<>();
 
     public void parser(Request request, Method method, Object[] args) {
         this.classParser(request, method);
         this.methodParser(request, method, args);
         this.parameterParser(request, method, args);
+        String uri = request.getUri();
+        String baseUrl = UrlBuilder.create(request.getUrl())
+                .addPath(uri)
+                .toString();
+        request.setUrl(baseUrl);
     }
 
     public void classParser(Request request, Method method) {
@@ -87,13 +91,10 @@ public class Parser {
     }
 
     public void parameterParser(Request request, Method method, Object[] args) {
-        Map<String, String> headers = request.getHeaders();
-        String contentType = headers.get("Content-Type");
         Parameter[] parameters = method.getParameters();
         if (args == null || args.length < 1) {
             return;
         }
-        Map<String, String> paramsMap = new HashMap<>(args.length);
         HttpServiceContext context = HttpServiceContextHolder.getContext();
         AnnotationHandlerRegister annotationHandlerRegister = context.getAnnotationHandlerRegister();
         for (int i = 0; i < args.length; i++) {
@@ -103,38 +104,7 @@ public class Parser {
                 AnnotationHandler handler = annotationHandlerRegister.getAnnotationHandler(annotation);
                 handler.process(new RequestContext(request, method, null, arg), annotation);
             }
-            Params params = parameter.getAnnotation(Params.class);
-            ParserParamsFactory parserParamsFactory = context.getParserParamsFactory();
-            ParserParams parserParams = parserParamsFactory.getParserParams(arg.getClass());
-            if (parserParams == null) {
-                throw new RuntimeException("不存在当前适配类型解析器");
-            }
-            if (params != null) {
-                String value = params.value();
-                if (value == null || value.isEmpty()) {
-                    value = arg.getClass().getName();
-                }
-                paramsMap.putAll(parserParams.parseParamType(value, arg));
-            }
-            Header header = parameter.getAnnotation(Header.class);
-            if (header != null) {
-                String[] value = header.value();
-                String key = parameter.getName();
-                if (value != null && value.length > 0) {
-                    key = value[0];
-                }
-                headers.putAll(parserParams.parseParamType(key, arg));
-            }
         }
-        request.setParams(paramsMap);
-    }
-
-    private byte[] handleBodyParam(String contentType, Object arg) {
-        HttpServiceContext context = HttpServiceContextHolder.getContext();
-        HttpConverter converter = context.getAbstractConverterFactory().getConverter(contentType);
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        converter.write(arg, output);
-        return output.toByteArray();
     }
 
     public static void parserHeaders(Map<String, String> headers, String[] value) {
