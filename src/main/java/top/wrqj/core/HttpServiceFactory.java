@@ -19,30 +19,53 @@ import java.util.Map;
 @Setter
 public class HttpServiceFactory {
 
-    private HttpClient httpClient = new NativeHttpClientAdapter();
+    private HttpClient httpClient;
 
-    private HttpConfig httpConfig = new HttpConfig();
+    private HttpConfig httpConfig;
 
-    private InterceptorRegister interceptorRegister = new InterceptorRegister();
+    private InterceptorRegister interceptorRegister;
 
-    private ParserParamsRegister parserParamsRegister = new ParserParamsRegister();
+    private ParserParamsRegister parserParamsRegister;
 
-    private ConverterRegister converterRegister = new ConverterRegister();
+    private ConverterRegister converterRegister;
 
-    private AnnotationHandlerRegister annotationHandlerRegister = new AnnotationHandlerRegister();
+    private AnnotationHandlerRegister annotationHandlerRegister;
 
     public HttpServiceFactory() {
+
+    }
+    
+    public <T> T createHttpService(Class<T> serviceInterface) {
+        this.defaultCreateInstance();
+        HttpServiceProxy httpServiceProxy = new HttpServiceProxy(this.initHttpServiceContext());
+        return httpServiceProxy.createProxy(serviceInterface);
+    }
+
+    private void defaultCreateInstance() {
+        if (this.httpClient == null) {
+            this.httpClient = new NativeHttpClientAdapter();
+        }
+        if (this.httpConfig == null) {
+            this.httpConfig = new HttpConfig();
+        }
+        if (this.converterRegister == null) {
+            this.converterRegister = new ConverterRegister();
+        }
+        if (this.parserParamsRegister == null) {
+            this.parserParamsRegister = new ParserParamsRegister();
+        }
+        if (this.annotationHandlerRegister == null) {
+            this.annotationHandlerRegister = new AnnotationHandlerRegister();
+        }
+        if (this.interceptorRegister == null) {
+            this.interceptorRegister = new InterceptorRegister();
+        }
         annotationHandlerRegister.registerAnnotationHandler(new HttpServerAnnotationHandler());
         annotationHandlerRegister.registerAnnotationHandler(new HttpAnnotationHandler());
         annotationHandlerRegister.registerAnnotationHandler(new PathParamAnnotationHandler());
         annotationHandlerRegister.registerAnnotationHandler(new BodyAnnotationHandler());
         annotationHandlerRegister.registerAnnotationHandler(new ParamsAnnotationHandler());
         annotationHandlerRegister.registerAnnotationHandler(new HeaderAnnotationHandler());
-    }
-    
-    public <T> T createHttpService(Class<T> serviceInterface) {
-        HttpServiceProxy httpServiceProxy = new HttpServiceProxy(this.initHttpServiceContext());
-        return httpServiceProxy.createProxy(serviceInterface);
     }
 
     private HttpServiceContext initHttpServiceContext() {
@@ -69,4 +92,5 @@ public class HttpServiceFactory {
         parserParamsFactory.addParserParam(parserParamsMap);
         return parserParamsFactory;
     }
+
 }
