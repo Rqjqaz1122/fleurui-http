@@ -6,6 +6,7 @@ import top.wrqj.core.builder.register.ConverterRegister;
 import top.wrqj.core.InterceptorRegister;
 import top.wrqj.core.builder.register.ParserParamsRegister;
 import top.wrqj.model.HttpConfig;
+import top.wrqj.plugins.annotation.AnnotationHandlerRegister;
 
 public class HttpServiceBuilder {
 
@@ -41,6 +42,11 @@ public class HttpServiceBuilder {
 
     public HttpServiceBuilder setHttpConfig(HttpConfig httpConfig) {
         this.httpServiceFactory.setHttpConfig(httpConfig);
+        return this;
+    }
+
+    public HttpServiceBuilder setAnnotationHandlerRegister(AnnotationHandlerRegister annotationHandlerRegister) {
+        this.httpServiceFactory.setAnnotationHandlerRegister(annotationHandlerRegister);
         return this;
     }
 

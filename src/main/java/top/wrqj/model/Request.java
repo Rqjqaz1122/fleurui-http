@@ -13,6 +13,8 @@ public class Request {
 
     private String url;
 
+    private String uri;
+
     private String method;
 
     private Map<String,String> headers;

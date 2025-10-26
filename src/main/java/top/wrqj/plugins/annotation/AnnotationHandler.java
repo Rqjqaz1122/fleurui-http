@@ -1,16 +1,16 @@
 package top.wrqj.plugins.annotation;
 
 import top.wrqj.common.enums.AnnotationScope;
-import top.wrqj.model.MethodContext;
+import top.wrqj.model.RequestContext;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-interface AnnotationHandler {
+public interface AnnotationHandler {
 
     boolean supports(Annotation annotation);
 
-    void process(MethodContext context, Annotation annotation);
+    void process(RequestContext context, Annotation annotation);
 
     default void beforeParse(Method method, Object[] args) {}
 

@@ -29,6 +29,11 @@ public class UrlTemplateUtils {
         return this.path;
     }
 
+    public String matching(String key, String value) {
+        this.path = this.path.replace("{" + key + "}", value);
+        return this.path;
+    }
+
     public List<String> getTemplateStrList(String str) {
         Pattern pattern = Pattern.compile("\\{(.+?)\\}");
         Matcher matcher = pattern.matcher(str);

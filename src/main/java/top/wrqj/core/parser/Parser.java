@@ -8,10 +8,14 @@ import top.wrqj.core.type.ParserParams;
 import top.wrqj.core.type.ParserParamsFactory;
 import top.wrqj.common.utils.UrlBuilder;
 import top.wrqj.common.utils.UrlTemplateUtils;
+import top.wrqj.core.utils.InvokeClassCache;
 import top.wrqj.exception.HeaderException;
 import top.wrqj.model.HttpServerMeta;
 import top.wrqj.model.HttpServiceContext;
 import top.wrqj.model.Request;
+import top.wrqj.model.RequestContext;
+import top.wrqj.plugins.annotation.AnnotationHandler;
+import top.wrqj.plugins.annotation.AnnotationHandlerRegister;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.annotation.Annotation;
@@ -24,10 +28,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Parser {
 
-    private final Map<Class<?>, Request> CLASS_CACHE = new ConcurrentHashMap<>();
+    private final InvokeClassCache classCache = new InvokeClassCache();
     private final Map<Class<?>, Method> VALUE_METHOD_CACHE = new ConcurrentHashMap<>();
-
-    public Parser() {}
 
     public void parser(Request request, Method method, Object[] args) {
         this.classParser(request, method);
@@ -37,15 +39,16 @@ public class Parser {
 
     public void classParser(Request request, Method method) {
         Class<?> clazz = method.getDeclaringClass();
-        Request requestCache = CLASS_CACHE.get(clazz);
+        Request requestCache = classCache.get(clazz);
         if (requestCache == null) {
-            Http http = clazz.getAnnotation(Http.class);
-            String baseUrl = http.value();
-            request.setUrl(baseUrl);
-            Map<String, String> headers = request.getHeaders();
-            String[] defaultHeader = http.defaultHeader();
-            this.parserHeaders(headers, defaultHeader);
-            CLASS_CACHE.put(clazz, request);
+            Annotation[] annotations = clazz.getAnnotations();
+            HttpServiceContext context = HttpServiceContextHolder.getContext();
+            AnnotationHandlerRegister annotationHandlerRegister = context.getAnnotationHandlerRegister();
+            for (Annotation annotation : annotations) {
+                AnnotationHandler annotationHandler = annotationHandlerRegister.getAnnotationHandler(annotation);
+                annotationHandler.process(new RequestContext(request, method, clazz, null), annotation);
+            }
+            classCache.put(clazz, request);
         } else {
             request.setUrl(requestCache.getUrl());
             request.setHeaders(requestCache.getHeaders());
@@ -53,71 +56,34 @@ public class Parser {
     }
 
     public void methodParser(Request request, Method method, Object[] args) {
-        HttpServerMeta httpServerMeta = this.parseHttpRequestMethod(method);
-        if (httpServerMeta == null) {
-            return;
-        }
-        Map<String, String> pathParam = this.parsePathParamMeta(method.getParameters(), args);
-        String url = this.buildUrl(request.getUrl(), httpServerMeta.getTemplateUrl(), pathParam);
-        request.setUrl(url);
-        request.setMethod(String.valueOf(httpServerMeta.getHttpMethod()));
-        Header header = method.getAnnotation(Header.class);
-        if (header != null) {
-            this.parserHeaders(request.getHeaders(), header.value());
-        }
-    }
-
-    private HttpServerMeta parseHttpRequestMethod(Method method) {
-        HttpServer httpServer = method.getAnnotation(HttpServer.class);
-        if (httpServer != null) {
-            return new HttpServerMeta(httpServer.method(), httpServer.value());
-        }
+        HttpServiceContext context = HttpServiceContextHolder.getContext();
+        AnnotationHandlerRegister annotationHandlerRegister = context.getAnnotationHandlerRegister();
         for (Annotation annotation : method.getAnnotations()) {
-            if (annotation.annotationType().isAnnotationPresent(HttpServer.class)) {
-                HttpServer parentAnno = annotation.annotationType().getAnnotation(HttpServer.class);
-                return new HttpServerMeta(parentAnno.method(), getAnnoValue(annotation));
-            }
-        }
-        return null;
-    }
-
-    private Map<String, String> parsePathParamMeta(Parameter[] parameters, Object[] values) {
-        Map<String, String> map = new HashMap<>(parameters.length);
-        for (int i = 0; i < parameters.length; i++) {
-            Object value = values[i];
-            PathParam pathParam = parameters[i].getAnnotation(PathParam.class);
-            if (pathParam == null) {
+            AnnotationHandler annotationHandler = annotationHandlerRegister.getAnnotationHandler(annotation);
+            if (annotationHandler == null) {
                 continue;
             }
-            String pathValue = pathParam.value();
-            map.put(pathValue, value.toString());
+            annotationHandler.process(new RequestContext(request, method, null, null), annotation);
         }
-        return map;
+        this.parsePathParamMeta(request, method, args);
     }
 
-    private String getAnnoValue(Annotation anno) {
-        Method valueMethod = VALUE_METHOD_CACHE.computeIfAbsent(anno.annotationType(), t -> {
-            try {
-                return t.getMethod("value");
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException(e);
+    private void parsePathParamMeta(Request request, Method method, Object[] values) {
+        Parameter[] parameters = method.getParameters();
+        HttpServiceContext context = HttpServiceContextHolder.getContext();
+        AnnotationHandlerRegister annotationHandlerRegister = context.getAnnotationHandlerRegister();
+        for (int i = 0; i < parameters.length; i++) {
+            Object value = values[i];
+            Parameter parameter = parameters[i];
+            Annotation[] annotations = parameter.getAnnotations();
+            for (Annotation annotation : annotations) {
+                AnnotationHandler annotationHandler = annotationHandlerRegister.getAnnotationHandler(annotation);
+                if (annotationHandler == null) {
+                    continue;
+                }
+                annotationHandler.process(new RequestContext(request, method, null, value), annotation);
             }
-        });
-        try {
-            return String.valueOf(valueMethod.invoke(anno));
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
         }
-    }
-
-
-    private String buildUrl(String baseUrl, String pathTemplate, Map<String, String> params) {
-        if (pathTemplate == null || pathTemplate.isEmpty()) return baseUrl;
-        if (params.isEmpty()) {
-            return UrlBuilder.create(baseUrl).addPath(pathTemplate).toString();
-        }
-        String matched = UrlTemplateUtils.ofTemplate(pathTemplate).matching(params);
-        return UrlBuilder.create(baseUrl).addPath(matched).toString();
     }
 
     public void parameterParser(Request request, Method method, Object[] args) {
@@ -128,16 +94,16 @@ public class Parser {
             return;
         }
         Map<String, String> paramsMap = new HashMap<>(args.length);
+        HttpServiceContext context = HttpServiceContextHolder.getContext();
+        AnnotationHandlerRegister annotationHandlerRegister = context.getAnnotationHandlerRegister();
         for (int i = 0; i < args.length; i++) {
             Object arg = args[i];
             Parameter parameter = parameters[i];
-            Body body = parameter.getAnnotation(Body.class);
-            if (body != null && contentType != null && !contentType.isEmpty()) {
-                byte[] bytes = this.handleBodyParam(contentType, arg);
-                request.setBody(bytes);
+            for (Annotation annotation : parameter.getAnnotations()) {
+                AnnotationHandler handler = annotationHandlerRegister.getAnnotationHandler(annotation);
+                handler.process(new RequestContext(request, method, null, arg), annotation);
             }
             Params params = parameter.getAnnotation(Params.class);
-            HttpServiceContext context = HttpServiceContextHolder.getContext();
             ParserParamsFactory parserParamsFactory = context.getParserParamsFactory();
             ParserParams parserParams = parserParamsFactory.getParserParams(arg.getClass());
             if (parserParams == null) {
@@ -171,7 +137,7 @@ public class Parser {
         return output.toByteArray();
     }
 
-    private void parserHeaders(Map<String, String> headers, String[] value) {
+    public static void parserHeaders(Map<String, String> headers, String[] value) {
         for (String item : value) {
             String[] split = item.split(":");
             if (split.length != 2) {
