@@ -37,6 +37,7 @@ public class HttpServiceFactory {
         annotationHandlerRegister.registerAnnotationHandler(new PathParamAnnotationHandler());
         annotationHandlerRegister.registerAnnotationHandler(new BodyAnnotationHandler());
         annotationHandlerRegister.registerAnnotationHandler(new ParamsAnnotationHandler());
+        annotationHandlerRegister.registerAnnotationHandler(new HeaderAnnotationHandler());
     }
     
     public <T> T createHttpService(Class<T> serviceInterface) {

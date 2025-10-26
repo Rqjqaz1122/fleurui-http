@@ -32,6 +32,7 @@ public class HeaderAnnotationHandler extends AbstractAnnotationHandler<Header> {
             }
             Map<String, String> parsedHeaders = parserParams.parseParamType(key, context.getParameter());
             headers.putAll(parsedHeaders);
+            return;
         }
         if (value == null || value.length < 1) {
             return;
