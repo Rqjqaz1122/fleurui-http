@@ -1,6 +1,7 @@
 package top.wrqj.core.parser;
 
 import top.wrqj.common.annotations.request.Params;
+import top.wrqj.common.enums.AnnotationScope;
 import top.wrqj.common.utils.HttpServiceContextHolder;
 import top.wrqj.core.type.ParserParams;
 import top.wrqj.core.type.ParserParamsFactory;
@@ -8,6 +9,8 @@ import top.wrqj.model.HttpServiceContext;
 import top.wrqj.model.RequestContext;
 import top.wrqj.plugins.annotation.AbstractAnnotationHandler;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class ParamsAnnotationHandler extends AbstractAnnotationHandler<Params> {
@@ -30,5 +33,10 @@ public class ParamsAnnotationHandler extends AbstractAnnotationHandler<Params> {
         }
         Map<String, String> paramsMap = parserParams.parseParamType(key, context.getParameter());
         context.getRequest().setParams(paramsMap);
+    }
+
+    @Override
+    public List<AnnotationScope> getScope() {
+        return Collections.singletonList(AnnotationScope.PARAMETER);
     }
 }

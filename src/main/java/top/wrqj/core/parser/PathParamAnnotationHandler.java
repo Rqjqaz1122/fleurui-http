@@ -1,10 +1,14 @@
 package top.wrqj.core.parser;
 
 import top.wrqj.common.annotations.request.PathParam;
+import top.wrqj.common.enums.AnnotationScope;
 import top.wrqj.common.utils.UrlTemplateUtils;
 import top.wrqj.model.Request;
 import top.wrqj.model.RequestContext;
 import top.wrqj.plugins.annotation.AbstractAnnotationHandler;
+
+import java.util.Collections;
+import java.util.List;
 
 public class PathParamAnnotationHandler extends AbstractAnnotationHandler<PathParam> {
 
@@ -21,4 +25,8 @@ public class PathParamAnnotationHandler extends AbstractAnnotationHandler<PathPa
         request.setUri(matchUri);
     }
 
+    @Override
+    public List<AnnotationScope> getScope() {
+        return Collections.singletonList(AnnotationScope.PARAMETER);
+    }
 }

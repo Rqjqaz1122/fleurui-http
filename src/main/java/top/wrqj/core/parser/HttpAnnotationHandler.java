@@ -1,11 +1,14 @@
 package top.wrqj.core.parser;
 
 import top.wrqj.common.annotations.request.Http;
+import top.wrqj.common.enums.AnnotationScope;
 import top.wrqj.exception.HeaderException;
 import top.wrqj.model.Request;
 import top.wrqj.model.RequestContext;
 import top.wrqj.plugins.annotation.AbstractAnnotationHandler;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class HttpAnnotationHandler extends AbstractAnnotationHandler<Http> {
@@ -31,5 +34,10 @@ public class HttpAnnotationHandler extends AbstractAnnotationHandler<Http> {
             }
             headers.put(split[0].trim(), split[1].trim());
         }
+    }
+
+    @Override
+    public List<AnnotationScope> getScope() {
+        return Collections.singletonList(AnnotationScope.CLASS);
     }
 }

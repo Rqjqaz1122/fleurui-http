@@ -5,6 +5,7 @@ import top.wrqj.model.RequestContext;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.List;
 
 public interface AnnotationHandler {
 
@@ -14,9 +15,7 @@ public interface AnnotationHandler {
 
     default void beforeParse(Method method, Object[] args) {}
 
-    default AnnotationScope getScope() {
-        return AnnotationScope.PARAMETER;
-    }
+    List<AnnotationScope> getScope();
 
     default int getOrder() {
         return 0;

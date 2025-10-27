@@ -1,6 +1,7 @@
 package top.wrqj.core.parser;
 
 import top.wrqj.common.annotations.request.Body;
+import top.wrqj.common.enums.AnnotationScope;
 import top.wrqj.common.utils.HttpServiceContextHolder;
 import top.wrqj.converters.AbstractConverterFactory;
 import top.wrqj.converters.HttpConverter;
@@ -10,6 +11,9 @@ import top.wrqj.model.RequestContext;
 import top.wrqj.plugins.annotation.AbstractAnnotationHandler;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class BodyAnnotationHandler extends AbstractAnnotationHandler<Body> {
@@ -32,5 +36,10 @@ public class BodyAnnotationHandler extends AbstractAnnotationHandler<Body> {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         converter.write(context.getParameter(), output);
         request.setBody(output.toByteArray());
+    }
+
+    @Override
+    public List<AnnotationScope> getScope() {
+        return Collections.singletonList(AnnotationScope.PARAMETER);
     }
 }

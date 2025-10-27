@@ -1,6 +1,7 @@
 package top.wrqj.core.parser;
 
 import top.wrqj.common.annotations.request.Header;
+import top.wrqj.common.enums.AnnotationScope;
 import top.wrqj.common.utils.HttpServiceContextHolder;
 import top.wrqj.core.type.ParserParams;
 import top.wrqj.core.type.ParserParamsFactory;
@@ -9,6 +10,9 @@ import top.wrqj.model.Request;
 import top.wrqj.model.RequestContext;
 import top.wrqj.plugins.annotation.AbstractAnnotationHandler;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class HeaderAnnotationHandler extends AbstractAnnotationHandler<Header> {
@@ -38,5 +42,10 @@ public class HeaderAnnotationHandler extends AbstractAnnotationHandler<Header> {
             return;
         }
         Parser.parserHeaders(context.getRequest().getHeaders(), value);
+    }
+
+    @Override
+    public List<AnnotationScope> getScope() {
+        return Arrays.asList(AnnotationScope.METHOD, AnnotationScope.CLASS, AnnotationScope.PARAMETER);
     }
 }

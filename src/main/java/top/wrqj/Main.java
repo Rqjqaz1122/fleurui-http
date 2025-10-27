@@ -5,6 +5,7 @@ import top.wrqj.common.annotations.method.Post;
 import top.wrqj.common.annotations.request.Header;
 import top.wrqj.common.annotations.request.Http;
 import top.wrqj.common.annotations.request.PathParam;
+import top.wrqj.common.enums.AnnotationScope;
 import top.wrqj.core.builder.HttpServiceBuilder;
 import top.wrqj.model.RequestContext;
 import top.wrqj.plugins.annotation.AbstractAnnotationHandler;
@@ -14,6 +15,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Collections;
+import java.util.List;
 
 public class Main {
 
@@ -46,6 +49,11 @@ public class Main {
         @Override
         public void doProcess(RequestContext context, DemoIn annotation) {
             System.out.println(context);
+        }
+
+        @Override
+        public List<AnnotationScope> getScope() {
+            return Collections.singletonList(AnnotationScope.PARAMETER);
         }
     }
 

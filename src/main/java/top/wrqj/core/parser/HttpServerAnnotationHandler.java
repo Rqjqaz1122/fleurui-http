@@ -1,6 +1,7 @@
 package top.wrqj.core.parser;
 
 import top.wrqj.common.annotations.method.HttpServer;
+import top.wrqj.common.enums.AnnotationScope;
 import top.wrqj.model.HttpServerMeta;
 import top.wrqj.model.RequestContext;
 import top.wrqj.model.Request;
@@ -9,6 +10,8 @@ import top.wrqj.plugins.annotation.AbstractAnnotationHandler;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,6 +39,11 @@ public class HttpServerAnnotationHandler extends AbstractAnnotationHandler<HttpS
         HttpServerMeta httpServerMeta = this.parseHttpRequestMethod(annotation);
         request.setUri(httpServerMeta.getTemplateUrl());
         request.setMethod(String.valueOf(httpServerMeta.getHttpMethod()));
+    }
+
+    @Override
+    public List<AnnotationScope> getScope() {
+        return Collections.singletonList(AnnotationScope.METHOD);
     }
 
     @Override

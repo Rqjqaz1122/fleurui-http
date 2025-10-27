@@ -2,6 +2,7 @@ package top.wrqj.core.parser;
 
 import top.wrqj.common.annotations.method.HttpServer;
 import top.wrqj.common.annotations.request.*;
+import top.wrqj.common.enums.AnnotationScope;
 import top.wrqj.common.utils.HttpServiceContextHolder;
 import top.wrqj.converters.HttpConverter;
 import top.wrqj.core.type.ParserParams;
@@ -49,7 +50,7 @@ public class Parser {
             HttpServiceContext context = HttpServiceContextHolder.getContext();
             AnnotationHandlerRegister annotationHandlerRegister = context.getAnnotationHandlerRegister();
             for (Annotation annotation : annotations) {
-                AnnotationHandler annotationHandler = annotationHandlerRegister.getAnnotationHandler(annotation);
+                AnnotationHandler annotationHandler = annotationHandlerRegister.getAnnotationHandler(annotation, AnnotationScope.CLASS);
                 annotationHandler.process(new RequestContext(request, method, clazz, null), annotation);
             }
             classCache.put(clazz, request);
@@ -63,7 +64,7 @@ public class Parser {
         HttpServiceContext context = HttpServiceContextHolder.getContext();
         AnnotationHandlerRegister annotationHandlerRegister = context.getAnnotationHandlerRegister();
         for (Annotation annotation : method.getAnnotations()) {
-            AnnotationHandler annotationHandler = annotationHandlerRegister.getAnnotationHandler(annotation);
+            AnnotationHandler annotationHandler = annotationHandlerRegister.getAnnotationHandler(annotation, AnnotationScope.METHOD);
             if (annotationHandler == null) {
                 continue;
             }
@@ -82,7 +83,7 @@ public class Parser {
             Object arg = args[i];
             Parameter parameter = parameters[i];
             for (Annotation annotation : parameter.getAnnotations()) {
-                AnnotationHandler handler = annotationHandlerRegister.getAnnotationHandler(annotation);
+                AnnotationHandler handler = annotationHandlerRegister.getAnnotationHandler(annotation, AnnotationScope.PARAMETER);
                 if (handler == null) {
                     return;
                 }
