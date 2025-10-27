@@ -49,7 +49,7 @@ public class Main {
         }
     }
 
-    @Target({ElementType.METHOD})
+    @Target({ElementType.PARAMETER})
     @Retention(RetentionPolicy.RUNTIME)
     public static @interface DemoIn {
 
@@ -58,8 +58,7 @@ public class Main {
     @Http("https://www.api.wrqj.top/blog/web/article")
     interface Demo {
         @Get("{id}")
-        @DemoIn
-        String getDemo(@PathParam("id") Long id, @Header("Authorization") Integer i);
+        String getDemo(@PathParam("id") Long id, @DemoIn @Header("Authorization") Integer i);
     }
 
 }

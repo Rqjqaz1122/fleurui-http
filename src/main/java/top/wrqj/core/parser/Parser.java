@@ -69,25 +69,6 @@ public class Parser {
             }
             annotationHandler.process(new RequestContext(request, method, null, null), annotation);
         }
-        this.parsePathParamMeta(request, method, args);
-    }
-
-    private void parsePathParamMeta(Request request, Method method, Object[] values) {
-        Parameter[] parameters = method.getParameters();
-        HttpServiceContext context = HttpServiceContextHolder.getContext();
-        AnnotationHandlerRegister annotationHandlerRegister = context.getAnnotationHandlerRegister();
-        for (int i = 0; i < parameters.length; i++) {
-            Object value = values[i];
-            Parameter parameter = parameters[i];
-            Annotation[] annotations = parameter.getAnnotations();
-            for (Annotation annotation : annotations) {
-                AnnotationHandler annotationHandler = annotationHandlerRegister.getAnnotationHandler(annotation);
-                if (annotationHandler == null) {
-                    continue;
-                }
-                annotationHandler.process(new RequestContext(request, method, null, value), annotation);
-            }
-        }
     }
 
     public void parameterParser(Request request, Method method, Object[] args) {
@@ -102,6 +83,9 @@ public class Parser {
             Parameter parameter = parameters[i];
             for (Annotation annotation : parameter.getAnnotations()) {
                 AnnotationHandler handler = annotationHandlerRegister.getAnnotationHandler(annotation);
+                if (handler == null) {
+                    return;
+                }
                 handler.process(new RequestContext(request, method, null, arg), annotation);
             }
         }
