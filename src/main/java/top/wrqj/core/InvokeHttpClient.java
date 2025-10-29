@@ -35,7 +35,6 @@ class InvokeHttpClient implements InvocationHandler {
         }
         HttpServiceContextHolder.setContext(httpServiceContext);
         Request request = new Request();
-        request.setHeaders(new HashMap<>());
         Parser parser = new Parser();
         parser.parser(request, method, args);
         Map<String, String> params = request.getParams();

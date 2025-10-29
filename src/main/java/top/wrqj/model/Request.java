@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Data
@@ -17,9 +18,9 @@ public class Request {
 
     private String method;
 
-    private Map<String,String> headers;
+    private Map<String,String> headers = new HashMap<>();
 
-    private Map<String,String> params;
+    private Map<String,String> params = new HashMap<>();
 
     private byte[] body;
 

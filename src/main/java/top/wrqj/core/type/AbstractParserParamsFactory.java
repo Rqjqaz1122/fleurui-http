@@ -21,17 +21,25 @@ public abstract class AbstractParserParamsFactory {
         if(isArray) {
             return this.parserParamsMap.get(ArrayType.class);
         }
-        ParserParams parserParams = this.parserParamsMap.get(clazz);
         if (List.class.isAssignableFrom(clazz)) {
-            parserParams = this.parserParamsMap.get(List.class);
+            return this.parserParamsMap.get(List.class);
         }
-        if(Number.class.isAssignableFrom(clazz)){
-            parserParams = this.parserParamsMap.get(Number.class);
+        if (isPrimitiveOrWrapper(clazz)) {
+            return this.parserParamsMap.get(Number.class);
         }
-        if(parserParams == null) {
-            parserParams = this.parserParamsMap.get(Object.class);
-        }
-        return parserParams;
+        return this.parserParamsMap.get(Object.class);
+    }
+
+    private static boolean isPrimitiveOrWrapper(Class<?> clazz) {
+        return clazz.isPrimitive()
+                || clazz == Integer.class
+                || clazz == Long.class
+                || clazz == Double.class
+                || clazz == Float.class
+                || clazz == Boolean.class
+                || clazz == Byte.class
+                || clazz == Short.class
+                || clazz == Character.class;
     }
 
     public void addParserParam(Class<?> clazz,ParserParams parserParams) {

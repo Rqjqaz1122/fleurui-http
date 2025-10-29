@@ -30,7 +30,7 @@ public class HeaderAnnotationHandler extends AbstractAnnotationHandler<Header> {
             HttpServiceContext serviceContext = HttpServiceContextHolder.getContext();
             ParserParamsFactory parserParamsFactory = serviceContext.getParserParamsFactory();
             ParserParams parserParams = parserParamsFactory.getParserParams(context.getParameter().getClass());
-            String key = context.getParameter().getClass().getName();
+            String key = context.getParameter().getClass().getSimpleName();
             if (value != null && value.length > 0) {
                 key = value[0];
             }

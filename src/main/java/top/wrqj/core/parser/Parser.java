@@ -51,7 +51,7 @@ public class Parser {
             AnnotationHandlerRegister annotationHandlerRegister = context.getAnnotationHandlerRegister();
             for (Annotation annotation : annotations) {
                 AnnotationHandler annotationHandler = annotationHandlerRegister.getAnnotationHandler(annotation, AnnotationScope.CLASS);
-                annotationHandler.process(new RequestContext(request, method, clazz, null), annotation);
+                annotationHandler.process(new RequestContext(request, method, clazz, null, null), annotation);
             }
             classCache.put(clazz, request);
         } else {
@@ -68,7 +68,7 @@ public class Parser {
             if (annotationHandler == null) {
                 continue;
             }
-            annotationHandler.process(new RequestContext(request, method, null, null), annotation);
+            annotationHandler.process(new RequestContext(request, method, null, null, null), annotation);
         }
     }
 
@@ -87,7 +87,7 @@ public class Parser {
                 if (handler == null) {
                     return;
                 }
-                handler.process(new RequestContext(request, method, null, arg), annotation);
+                handler.process(new RequestContext(request, method, null, parameter, arg), annotation);
             }
         }
     }

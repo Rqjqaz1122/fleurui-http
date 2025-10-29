@@ -29,10 +29,13 @@ public class ParamsAnnotationHandler extends AbstractAnnotationHandler<Params> {
         }
         String key = params.value();
         if (key == null || key.isEmpty()) {
-            key = context.getParameter().getClass().getName();
+            key = context.getParameterType().getName();
+        }
+        if (key == null || key.isEmpty()) {
+            key = context.getParameter().getClass().getSimpleName();
         }
         Map<String, String> paramsMap = parserParams.parseParamType(key, context.getParameter());
-        context.getRequest().setParams(paramsMap);
+        context.getRequest().getParams().putAll(paramsMap);
     }
 
     @Override
