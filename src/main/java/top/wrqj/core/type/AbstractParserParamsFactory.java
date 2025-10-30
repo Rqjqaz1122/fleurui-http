@@ -1,6 +1,7 @@
 package top.wrqj.core.type;
 
 import top.wrqj.model.ArrayType;
+import top.wrqj.model.Universal;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,7 @@ public abstract class AbstractParserParamsFactory {
             return this.parserParamsMap.get(List.class);
         }
         if (isPrimitiveOrWrapper(clazz)) {
-            return this.parserParamsMap.get(Number.class);
+            return this.parserParamsMap.get(Universal.class);
         }
         return this.parserParamsMap.get(Object.class);
     }
