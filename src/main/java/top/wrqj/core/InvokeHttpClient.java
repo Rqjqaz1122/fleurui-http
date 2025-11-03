@@ -8,6 +8,7 @@ import top.wrqj.core.interceptor.InterceptorExecutionChain;
 import top.wrqj.core.interceptor.InterceptorHandler;
 import top.wrqj.core.parser.Parser;
 import top.wrqj.common.utils.UrlBuilder;
+import top.wrqj.core.utils.StringUtils;
 import top.wrqj.exception.HttpClientNullException;
 import top.wrqj.model.HttpConfig;
 import top.wrqj.model.HttpServiceContext;
@@ -56,7 +57,9 @@ class InvokeHttpClient implements InvocationHandler {
         HttpConverter converter = httpServiceContext.getAbstractConverterFactory().getConverter(contentType);
         this.after(response);
         HttpServiceContextHolder.remove();
-        return converter.read(body, method.getReturnType());
+        Map<String, String> extractParams = StringUtils.extractParams(contentType);
+        String charset = extractParams.get("charset");
+        return converter.read(body, StringUtils.isBlank(charset) ? "UTF-8" : charset, method.getReturnType());
     }
 
     private boolean validMethod(Method method) {

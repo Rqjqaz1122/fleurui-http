@@ -10,15 +10,11 @@ public class TextHtmlConverter implements HttpConverter {
         return "text/html";
     }
 
-    @Override
-    public <T> T read(InputStream inputStream, Class<T> clazz) throws IOException {
-        return null;
-    }
 
     @Override
-    public <T> T read(byte[] bytes, Class<T> clazz) throws IOException {
+    public <T> T read(byte[] bytes, String charset, Class<T> clazz) throws IOException {
         if (clazz == String.class) {
-            return clazz.cast(new String(bytes));
+            return clazz.cast(new String(bytes, charset));
         }
         return null;
     }

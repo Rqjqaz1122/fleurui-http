@@ -11,12 +11,7 @@ public class XmlConverter implements HttpConverter {
     }
 
     @Override
-    public <T> T read(InputStream inputStream, Class<T> clazz) throws IOException {
-        return null;
-    }
-
-    @Override
-    public <T> T read(byte[] bytes, Class<T> clazz) throws IOException {
+    public <T> T read(byte[] bytes, String charset, Class<T> clazz) throws IOException {
         return null;
     }
 

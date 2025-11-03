@@ -19,16 +19,13 @@ public interface HttpConverter {
      * @param <T>
      * @throws IOException
      */
-    <T> T read(InputStream inputStream,Class<T> clazz) throws IOException;
+    default <T> T read(InputStream inputStream,Class<T> clazz) throws IOException {
+        return null;
+    }
 
-    /**
-     * 从byte数组中读取数据转为Java对象
-     * @param bytes
-     * @return
-     * @param <T>
-     * @throws IOException
-     */
-    <T> T read(byte[] bytes,Class<T> clazz) throws IOException;
+    default <T> T read(byte[] bytes, String charset, Class<T> clazz) throws IOException {
+        return null;
+    }
 
     /**
      * 将数据写入输出流
