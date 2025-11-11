@@ -6,19 +6,19 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import top.wrqj.clients.HttpClient;
-import top.wrqj.clients.NativeHttpClientAdapter;
+import top.wrqj.client.HttpClient;
+import top.wrqj.client.NativeHttpClientAdapter;
 import top.wrqj.converters.HttpConverter;
-import top.wrqj.converters.json.JacksonConverter;
-import top.wrqj.converters.text.TextHtmlConverter;
+import top.wrqj.converters.JsonConverter;
+import top.wrqj.converters.TextHtmlConverter;
+import top.wrqj.core.HttpServiceFactory;
 import top.wrqj.core.InterceptorRegister;
-import top.wrqj.core.builder.HttpServiceFactory;
 import top.wrqj.core.builder.register.ConverterRegister;
 import top.wrqj.core.builder.register.ParserParamsRegister;
 import top.wrqj.core.type.ArrayParserAdapter;
-import top.wrqj.core.type.NumberParserAdapter;
 import top.wrqj.core.type.ObjectParserAdapter;
 import top.wrqj.core.type.ParserParams;
+import top.wrqj.core.type.UniversalParserAdapter;
 import top.wrqj.model.ArrayType;
 
 import java.util.ArrayList;
@@ -40,14 +40,14 @@ public class HttpServiceAutoConfiguration {
     public BeanHodler<List<HttpConverter>> defaultHttpConverters(){
         List<HttpConverter> converters = new ArrayList<>();
         converters.add(new TextHtmlConverter());
-        converters.add(new JacksonConverter());
+        converters.add(new JsonConverter());
         return new BeanHodler<>(converters);
     }
 
     @Bean(name = "defaultParserParamsMap")
     public BeanHodler<Map<Class<?>, ParserParams>>defaultParserParamsMap() {
         Map<Class<?>, ParserParams> map = new HashMap<>();
-        map.put(Number.class, new NumberParserAdapter());
+        map.put(Number.class, new UniversalParserAdapter());
         map.put(ArrayType.class, new ArrayParserAdapter());
         map.put(Object.class, new ObjectParserAdapter());
         return  new BeanHodler<>(map);

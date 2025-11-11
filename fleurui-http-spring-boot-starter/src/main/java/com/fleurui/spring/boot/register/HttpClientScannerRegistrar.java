@@ -61,6 +61,7 @@ public class HttpClientScannerRegistrar implements ImportBeanDefinitionRegistrar
             .rootBeanDefinition(HttpClientFactoryBean.class);
         builder.addConstructorArgValue(className);
         builder.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
+
         AbstractBeanDefinition beanDefinitionToRegister = builder.getBeanDefinition();
         beanDefinitionToRegister.setPrimary(false);
         beanDefinitionToRegister.setLazyInit(true);

@@ -1,5 +1,6 @@
 package top.wrqj;
 
+import lombok.Data;
 import top.wrqj.common.annotations.method.Get;
 import top.wrqj.common.annotations.method.Post;
 import top.wrqj.common.annotations.request.Header;
@@ -27,17 +28,27 @@ public class Main {
         Demo build = HttpServiceBuilder.create()
                 .setAnnotationHandlerRegister(annotationHandlerRegister)
                 .build(Demo.class);
-        long startTime = System.currentTimeMillis();
-        String demo = build.getDemo(1901674407231488L, 1);
-        long endTime = System.currentTimeMillis();
-        System.out.println(demo);
-        System.out.println(endTime - startTime);
-        long startTime1 = System.currentTimeMillis();
-        String demo1 = build.getDemo(1901674407231488L, 2);
-        long endTime1 = System.currentTimeMillis();
-        System.out.println(demo1);
-        System.out.println(endTime1 - startTime1);
+        DemoEntity address = build.getAddress("223.167.235.221", true);
+        System.out.println(address);
+//        long startTime = System.currentTimeMillis();
+//        String demo = build.getDemo(1901674407231488L, 1);
+//        long endTime = System.currentTimeMillis();
+//        System.out.println(demo);
+//        System.out.println(endTime - startTime);
+//        long startTime1 = System.currentTimeMillis();
+//        String demo1 = build.getDemo(1901674407231488L, 2);
+//        long endTime1 = System.currentTimeMillis();
+//        System.out.println(demo1);
+//        System.out.println(endTime1 - startTime1);
 
+    }
+
+    @Data
+    public static class DemoEntity {
+        private String city;
+        private String cityCode;
+        private String addr;
+        private String ip;
     }
 
     public static class DemoHandler extends AbstractAnnotationHandler<DemoIn> {
@@ -64,10 +75,13 @@ public class Main {
 
     }
 
-    @Http("https://www.api.wrqj.top/blog/web/article")
+    @Http("http://whois.pconline.com.cn/ipJson.jsp")
     interface Demo {
         @Get("{id}")
         String getDemo(@PathParam("id") Long id, @Params @DemoIn int is);
+
+        @Get
+        DemoEntity getAddress(@Params("ip") String ip, @Params("json") Boolean isJson);
     }
 
 }

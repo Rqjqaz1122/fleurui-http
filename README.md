@@ -20,7 +20,7 @@ Fleurui Http 是一个基于Java注解实现的轻量级HTTP请求框架，灵�
 <dependency>
     <groupId>top.wrqj</groupId>
     <artifactId>fleurui-http</artifactId>
-    <version>0.0.1-beta</version>
+    <version>1.1.4</version>
 </dependency>
 ```
 
@@ -31,7 +31,6 @@ Fleurui Http 是一个基于Java注解实现的轻量级HTTP请求框架，灵�
 public interface ExampleApi {
 
     @Get("/article/{id}")
-    @HttpServer()
     String getArticleInfo(@PathParam("id") Long id);
 
     @Post
@@ -44,7 +43,7 @@ public interface ExampleApi {
 
 ```java
 // 创建接口实例
-ExampleApi exmapleApi = HttpServiceBuilder.builder().build(ExampleApi.class);
+ExampleApi exmapleApi = HttpServiceBuilder.create().build(ExampleApi.class);
 //调用接口方法
 String articleInfo = build.getArticleInfo(1889267805298688L);
 ```
@@ -152,10 +151,61 @@ public class JacksonConverter implements HttpConverter {
 // 注册适配器
 ConverterRegister converterRegister = new ConverterRegister();
 converterRegister.addConverter(new JacksonConverter());
-ExampleApi build = HttpServiceBuilder.builder()
+ExampleApi build = HttpServiceBuilder.create()
                 .setConverterRegister(converterRegister)
                 .build(ExampleApi.class);
 ```
 
 > 当前示例为Fleurui Http中默认采用的JSON格式转换器，开发者通过实现HttpConverter接口中的方法，可定制请求入参以及响应参数，Fleurui Http按照getContentType()方法return的参数来获取转换器，当getContentType()存在相同的返回参数时，新添加的转换器会覆盖之前的转换器。
+
+### 自定义注解解析
+在 Fleurui Http 中，为了解决开发者在实际业务开发过程中可能遇到的多样化扩展需求，框架提供了 自定义注解机制。
+通过自定义注解，开发者可以在方法、参数、类等不同层级上灵活地添加元数据，从而实现个性化的 请求解析、参数绑定、拦截处理、序列化转换 等功能扩展。
+
+例如，定义一个参数级别的注解：
+``` java
+    // 自定义注解
+    @Target({ElementType.PARAMETER})
+    @Retention(RetentionPolicy.RUNTIME)
+    public static @interface DemoIn {
+    }
+```
+为了实现自定义注解拓展，开发者需要去继承AbstractAnnotationHandler抽象类，并需要在
+getSupportedAnnotation()方法中指定注解的类型。
+
+在doProcess()方法中即为Fleurui Http扫描到当前注解上下文所执行的方法。
+
+getScope()方法则为注解可被哪些作用域扫描
+
+例如，定义的DemoHandler
+```java
+public static class DemoHandler extends AbstractAnnotationHandler<DemoIn> {
+
+        @Override
+        protected Class<DemoIn> getSupportedAnnotation() {
+            return DemoIn.class;
+        }
+
+        @Override
+        public void doProcess(RequestContext context, DemoIn annotation) {
+            System.out.println(context);
+        }
+
+        @Override
+        public List<AnnotationScope> getScope() {
+            return Collections.singletonList(AnnotationScope.PARAMETER);
+        }
+    }
+```
+注册自定义注解处理器
+```java
+AnnotationHandlerRegister annotationHandlerRegister = new AnnotationHandlerRegister();
+annotationHandlerRegister.registerAnnotationHandler(new DemoHandler());
+Demo build = HttpServiceBuilder.create()
+        .setAnnotationHandlerRegister(annotationHandlerRegister)
+        .build(Demo.class);
+```
+
+
+
 

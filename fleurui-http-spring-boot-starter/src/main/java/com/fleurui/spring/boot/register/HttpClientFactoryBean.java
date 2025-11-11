@@ -4,7 +4,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import top.wrqj.core.builder.HttpServiceFactory;
+import top.wrqj.core.HttpServiceFactory;
 
 public class HttpClientFactoryBean implements FactoryBean<Object>, InitializingBean, ApplicationContextAware {
 
